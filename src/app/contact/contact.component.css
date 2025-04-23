@@ -1,0 +1,40 @@
+.hero{
+    /* background-color: aqua; */
+    background-image: linear-gradient(to right, #00c6ff, #0072ff, red);
+    animation: gradiant 5s ease infinite;
+    background-size: 400% 400%;
+    height: 40vh;
+}
+@keyframes gradiant{
+    0%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+    100%{
+        background-position: 0% 50%;
+    }
+}
+h1{
+    color: white;
+    font-size: 3.5rem;
+}
+.box{
+    height: 200px;
+    box-shadow: 0 0 10px gray;
+    border-radius: 15px;
+}
+a{
+    text-decoration: none;
+}
+h4{
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+p{
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgb(71, 71, 71);
+}

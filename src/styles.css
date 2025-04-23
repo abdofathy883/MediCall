@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+    --primary-color: #218eb6;
+    --secondary-color: #e48b4e;
+    --font-family: 'Arial', sans-serif;
+}
+html{
+    font-size: 18px;
+    box-sizing: border-box;
+    font-weight: 400;
+    @media screen and (max-width: 768px){
+        font-size: 16px;
+        
+    }
+}
+
+.button{
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:hover{
+        background-color: var(--secondary-color);
+    }
+    @media screen and (max-width: 768px){
+        padding: 8px 16px;
+        
+    }
+}
+.form-btn{
+    width: 100%; 
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 0;
+    margin-top: 15px;
+    &:hover{
+        background-color: var(--primary-color);
+        color: white;
+    }
+}

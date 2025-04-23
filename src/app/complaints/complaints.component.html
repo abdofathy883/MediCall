@@ -1,0 +1,200 @@
+<section class="hero">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center">
+        <div class="row text-center">
+          <h1>Complaints</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+            voluptatibus.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <img
+          src="/CRM.svg"
+          width="75%"
+          alt="Complaints"
+          class="mx-auto d-block img-fluid"
+        />
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section class="container my-5">
+  <div class="row">
+    <div class="col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-start">
+      <h1>Complaints</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda iure
+        deleniti similique ullam, fuga cupiditate non quos a aut odio,
+        temporibus commodi? Dignissimos dolorem, nam ipsum voluptatibus ullam
+        amet fuga!
+      </p>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              Accordion Item #1
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus
+              cupiditate accusamus modi quis! Corporis esse rem voluptatem
+              reiciendis cum aperiam soluta ducimus sit quaerat! Sed deleniti
+              numquam distinctio ad rem!
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              Accordion Item #2
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat,
+              sit. Est veniam in sapiente. Est, expedita mollitia. Porro
+              aspernatur quos autem. Ut sunt ea eveniet enim, recusandae
+              provident quis vel!
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              Accordion Item #3
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+              autem voluptatem reprehenderit temporibus, quas aliquam, rem
+              fugiat veritatis ipsa totam, recusandae mollitia sint sapiente
+              iusto nostrum earum nemo quos sequi.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container my-4">
+  <h2 class="mt-5 text-center">تقديم شكوى</h2>
+  <p class="mb-4 text-center">
+    إذا كان لديك أي شكوى أو استفسار، يرجى ملء النموذج أدناه وسنقوم بالرد عليك في
+    أقرب وقت ممكن.
+  </p>
+  <form action="">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="" class="form-label">الاسم الكامل</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fullName"
+          placeholder="ادخل الاسم الكامل"
+        />
+      </div>
+      <div class="col">
+        <label for="phone" class="form-label">رقم الهاتف</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="phone"
+          placeholder="ادخل رقم الهاتف"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="nurseName" class="form-label">اسم الممرض</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nurseName"
+          placeholder="ادخل اسم الممرض"
+        />
+      </div>
+      <div class="col">
+        <label for="nurseName" class="form-label">عنوان الشكوى</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nurseName"
+          placeholder="ادخل اسم الممرض"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="complaintDetails" class="form-label">التاريخ</label>
+        <input
+          type="date"
+          class="form-control"
+          id="complaintDate"
+          placeholder="ادخل التاريخ"
+        />
+      </div>
+      <div class="col">
+        <label for="complaintType" class="form-label">نوع الشكوى</label>
+        <select class="form-select" id="complaintType">
+          <option selected disabled>اختر نوع الشكوى</option>
+          <option value="1">نوع 1</option>
+          <option value="2">نوع 2</option>
+          <option value="3">نوع 3</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="complaintDetails" class="form-label">تفاصيل الشكوى</label>
+      <textarea
+        class="form-control"
+        id="complaintDetails"
+        rows="3"
+        placeholder="ادخل تفاصيل الشكوى"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">إرسال الشكوى</button>
+  </form>
+</section>
