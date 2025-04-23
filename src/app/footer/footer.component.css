@@ -1,3 +1,42 @@
 footer{
     background-color: var(--primary-color);
 }
+i{
+    font-size: 25px;
+    margin-left: 20px;
+}
+.social{
+    padding: 8px 12px;
+    background-color: white;
+    border-radius: 80px;
+    &:hover{
+        background-color: var(--secondary-color);
+        color: white;
+        transform: scale(1.5);
+        
+    }
+    transition: all 0.3s ease-in-out;
+}
+.contact{
+    color: white;
+}
+span{
+    color: white;
+}
+a{
+    text-decoration: none;
+}
+hr{
+    opacity: 1;
+    color: white;
+    margin: 0;
+}
+p{
+    margin: 0;
+}
+h5{
+    color: white;
+}
+li{
+    color: white;
+}

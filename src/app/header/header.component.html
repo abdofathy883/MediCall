@@ -19,31 +19,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" routerLink="/"
-                >الرئيسية</a
+              <a class="nav-link active" aria-current="page" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">الرئيسية</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">اطلب</a>
+              <a class="nav-link" href="#" routerLinkActive="active">اطلب</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/about-us">من نحن</a>
+              <a class="nav-link" routerLink="/about-us" routerLinkActive="active">من نحن</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/complaints">الشكاوى</a>
+              <a class="nav-link" routerLink="/complaints" routerLinkActive="active">الشكاوى</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/contact">تواصل معنا</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/my-account">account</a>
+              <a class="nav-link" routerLink="/contact" routerLinkActive="active">تواصل معنا</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
     <div class="d-flex justify-content-center align-items-center gap-2">
-      <div>
+      <div class="d-flex justify-content-center align-items-center gap-2">
         <a routerLink="/register">
           <button class="button">سجل حساب</button>
         </a>
@@ -52,7 +48,9 @@
         </a>
       </div>
       <div>
-        
+        <a routerLink="/my-account">
+          <i class="bi bi-person-circle"></i>
+        </a>
       </div>
     </div>
   </div>

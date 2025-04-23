@@ -1,0 +1,6 @@
+.com-btn{
+    width: 45%;
+    background-color: var(--primary-color);
+    margin: 10px;
+    color: white;
+}
