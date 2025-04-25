@@ -36,7 +36,8 @@
 <section class="container my-5">
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <form action="">
+      <!-- #contactform="ngForm" (ngSubmit)="onSubmit(contactform)" -->
+      <form  method="post" id="contact-form">
         <div class="mb-3">
           <label for="name" class="form-label">الاسم</label>
           <input
@@ -44,9 +45,11 @@
             id="name"
             name="name"
             class="form-control"
+            
             required
           />
         </div>
+        <!-- [(ngModel)]="formData.name" -->
         <div class="mb-3">
           <label for="">الهاتف</label>
           <input
@@ -54,9 +57,11 @@
             id="phone"
             name="phone"
             class="form-control"
+            
             required
           />
         </div>
+        <!-- [(ngModel)]="formData.phone" -->
         <div class="mb-3">
           <label for="email" class="form-label">البريد الإلكتروني</label>
           <input
@@ -64,20 +69,25 @@
             id="email"
             name="email"
             class="form-control"
+            
             required
           />
         </div>
+        <!-- [(ngModel)]="formData.email" -->
         <div class="mb-3">
           <label for="message" class="form-label">الرسالة</label>
           <textarea
             id="message"
             name="message"
             class="form-control"
+            
             rows="3"
             required
           ></textarea>
+          <!-- [(ngModel)]="formData.message" -->
         </div>
         <input type="submit" class="btn form-btn" value="إرسال" />
+         <!-- [disabled]="!contactform.valid" -->
       </form>
     </div>
     <div class="col-md-6 col-sm-12">
