@@ -17,6 +17,16 @@
         </div>
         <div class="row mb-3">
             <div class="col">
+                <label for="nationalId" class="form-label">الرقم القومي</label>
+                <input type="text" id="nationalId" name="nationalId" class="form-control" required>
+            </div>
+            <div class="col">
+                <label for="phone" class="form-label">رقم الهاتف</label>
+                <input type="tel" id="phone" name="phone" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
                 <label for="lastName" class="form-label">تاريخ الميلاد</label>
                 <input type="date" id="lastName" name="lastName" class="form-control" required>
             </div>
@@ -36,8 +46,14 @@
             </div>
             
             <div class="col">
-                <label for="profileImage" class="form-label">صورة الملف الشخصي</label>
-                <input type="file" id="profileImage" name="profileImage" class="form-control" accept="image/*">
+                <label for="profileImage" class="form-label">الدور</label>
+                <select name="role" id="role" class="form-select">
+                    <option value="" disabled selected>اختر الدور</option>
+                    <option value="admin">مدير</option>
+                    <option value="user">مستخدم</option>
+                    <option value="doctor">طبيب</option>
+                </select>
+
             </div>
         </div>
         <div class="row mb-3">

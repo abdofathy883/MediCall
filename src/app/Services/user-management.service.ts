@@ -2,30 +2,47 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date;
-  gender: string;
-  email: string;
-  phone: string;
-  createdAt: Date;
+export interface Location {
+  Lat: number;
+  Lng: number;
 }
 
+export interface UserRegister {
+  nationalId: string;
+  email: string;
+  userName: string;
+  password: string;
+  confirmPassword: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  Role: string;
+  dateOfBirth: Date;
+  gender: string;
+  location: Location;
+}
+
+export interface UserLogin {
+  email: string;
+  password: string;
+}
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserManagementService {
-  private apiURL = 'https://example.com/api/users'; // Replace with your API endpoint
-  constructor(private http: HttpClient) { }
+  private apiURLLogin = 'https://localhost:44364/api/AuthController/Login'; // Replace with your API endpoint
+  private apiURLRegister = 'https://localhost:44364/api/AuthController'; // Replace with your API endpoint
+  constructor(private http: HttpClient) {}
 
-  registerUser(userData: User): Observable<any> {
-    return this.http.post(this.apiURL, userData);
+  registerUser(userData: UserRegister): Observable<any> {
+    return this.http.post(this.apiURLRegister, userData);
   }
 
-  getByUserId(userId: number): Observable<User> {
-    return this.http.get<User>(`${this.apiURL}/${userId}`);
+  sendUserLoginData(userData: UserLogin): Observable<any> {
+    return this.http.post(this.apiURLLogin, userData);
+  }
+
+  getByUserId(userId: number): Observable<UserRegister> {
+    return this.http.get<UserRegister>(`${this.apiURLRegister}/${userId}`);
   }
 }

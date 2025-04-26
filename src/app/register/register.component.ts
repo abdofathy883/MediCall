@@ -3,7 +3,8 @@ import { RouterLink } from '@angular/router';
 import { Component } from '@angular/core';
 import {
   UserManagementService,
-  User,
+  UserRegister,
+  Location,
 } from '../Services/user-management.service';
 
 @Component({
@@ -13,17 +14,24 @@ import {
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-//   user: User = {
-//     id: 1,
-//     firstName: 'string',
-//     lastName: 'string',
-//     dateOfBirth: new Date(),
-//     gender: 'string',
-//     email: 'string',
-//     phone: 'string',
-//     createdAt: new Date(),
-//   };
-  // constructor(private userManagementService: UserManagementService) {}
+  user: UserRegister = {
+    nationalId: '',
+    email: '',
+    userName: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+    firstName: '',
+    lastName: '',
+    Role: '',
+    dateOfBirth: new Date(),
+    gender: '',
+    location: { Lat: 0, Lng: 0 },
+  };
+
+  constructor(private userManagementService: UserManagementService) {
+    this.user.userName = `${this.user.firstName} ${this.user.lastName}`;
+  }
 
   // onSubmit(form: NgForm) {
   //   if (form.valid) {
