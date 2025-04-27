@@ -1,35 +1,409 @@
-<section>
-    <form action="">
-        <div class="mb3">
-            <label for="name" class="form-label">الاسم الاول</label>
-            <input type="text" id="name" name="name" class="form-control" required>
+<section class="register-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-7">
+        <div class="register-card">
+          <div class="register-header text-center">
+            <img
+              src="/MediCall-logo.png"
+              alt="MediCall Logo"
+              class="register-logo"
+            />
+            <h2 class="mt-4 mb-3">انشاء حساب جديد</h2>
+            <p class="text-muted">انشئ حسابك للوصول إلى خدمات ميديكول</p>
+          </div>
+
+          <!-- User type selector -->
+          <div class="user-type-tabs mb-4">
+            <ul class="nav nav-tabs nav-fill">
+              <li class="nav-item">
+                <a 
+                  class="nav-link" 
+                  [class.active]="userType === 'patient'"
+                  (click)="switchUserType('patient')"
+                  href="javascript:void(0);"
+                >
+                  <i class="bi bi-person me-2"></i>مريض
+                </a>
+              </li>
+              <li class="nav-item">
+                <a 
+                  class="nav-link" 
+                  [class.active]="userType === 'nurse'"
+                  (click)="switchUserType('nurse')"
+                  href="javascript:void(0);"
+                >
+                  <i class="bi bi-capsule me-2"></i>ممرض
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Alert for registration errors -->
+          <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+            <div class="row">
+              <!-- First Name -->
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">الاسم الأول</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input
+                    type="text"
+                    id="firstName"
+                    formControlName="firstName"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }"
+                    placeholder="أدخل الاسم الأول"
+                  />
+                </div>
+                <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback d-block">
+                  <div *ngIf="f['firstName'].errors['required']">الاسم الأول مطلوب</div>
+                  <div *ngIf="f['firstName'].errors['minlength']">
+                    الاسم الأول يجب أن يكون على الأقل حرفين
+                  </div>
+                </div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">الاسم الأخير</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input
+                    type="text"
+                    id="lastName"
+                    formControlName="lastName"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }"
+                    placeholder="أدخل الاسم الأخير"
+                  />
+                </div>
+                <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback d-block">
+                  <div *ngIf="f['lastName'].errors['required']">الاسم الأخير مطلوب</div>
+                  <div *ngIf="f['lastName'].errors['minlength']">
+                    الاسم الأخير يجب أن يكون على الأقل حرفين
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Email -->
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">البريد الإلكتروني</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input
+                    type="email"
+                    id="email"
+                    formControlName="email"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                    placeholder="أدخل البريد الإلكتروني"
+                  />
+                </div>
+                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback d-block">
+                  <div *ngIf="f['email'].errors['required']">البريد الإلكتروني مطلوب</div>
+                  <div *ngIf="f['email'].errors['email']">
+                    يرجى إدخال بريد إلكتروني صحيح
+                  </div>
+                </div>
+              </div>
+
+              <!-- Date of Birth -->
+              <div class="col-md-6 mb-3">
+                <label for="dateOfBirth" class="form-label">تاريخ الميلاد</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                  <input
+                    type="date"
+                    id="dateOfBirth"
+                    formControlName="dateOfBirth"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['dateOfBirth'].errors }"
+                  />
+                </div>
+                <div *ngIf="submitted && f['dateOfBirth'].errors" class="invalid-feedback d-block">
+                  <div *ngIf="f['dateOfBirth'].errors['required']">تاريخ الميلاد مطلوب</div>
+                  <div *ngIf="f['dateOfBirth'].errors['minAge']">
+                    يجب أن يكون عمرك 18 عامًا على الأقل
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-3">
+              <label class="form-label">النوع</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+                <select
+                  formControlName="gender"
+                  class="form-select"
+                  [ngClass]="{ 'is-invalid': submitted && f['gender'].errors }"
+                >
+                  <option [value]="genderEnum.Male">ذكر</option>
+                  <option [value]="genderEnum.Female">أنثى</option>
+                </select>
+              </div>
+              <div *ngIf="submitted && f['gender'].errors" class="invalid-feedback d-block">
+                <div *ngIf="f['gender'].errors['required']">النوع مطلوب</div>
+              </div>
+            </div>
+
+            <!-- Location - City and Address in one row -->
+            <div formGroupName="location" class="mb-3">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="city" class="form-label">المدينة</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                    <input
+                      type="text"
+                      id="city"
+                      formControlName="city"
+                      class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && locationControls['city'].errors }"
+                      placeholder="أدخل المدينة"
+                    />
+                  </div>
+                  <div *ngIf="submitted && locationControls['city'].errors" class="invalid-feedback d-block">
+                    <div *ngIf="locationControls['city'].errors['required']">المدينة مطلوبة</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="address" class="form-label">العنوان</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-house"></i></span>
+                    <input
+                      type="text"
+                      id="address"
+                      formControlName="address"
+                      class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && locationControls['address'].errors }"
+                      placeholder="أدخل العنوان"
+                    />
+                  </div>
+                  <div *ngIf="submitted && locationControls['address'].errors" class="invalid-feedback d-block">
+                    <div *ngIf="locationControls['address'].errors['required']">العنوان مطلوب</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Geolocation Control -->
+              <div class="mb-3">
+                <label class="form-label">الموقع الجغرافي</label>
+                <div class="d-flex gap-2 align-items-center">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-primary" 
+                    (click)="getCurrentLocation()"
+                    [disabled]="isGettingLocation"
+                  >
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    <span *ngIf="!isGettingLocation">الحصول على الموقع الحالي</span>
+                    <span *ngIf="isGettingLocation">جاري تحديد الموقع...</span>
+                  </button>
+                  <div *ngIf="locationControls['latitude'].value && locationControls['longitude'].value" class="text-success">
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    تم تحديد الموقع بنجاح
+                  </div>
+                </div>
+                <div *ngIf="locationError" class="text-danger mt-1">
+                  <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                  {{ locationError }}
+                </div>
+                <small class="form-text text-muted">
+                  سيساعدنا هذا في تحديد موقعك بدقة لتقديم خدمة أفضل
+                </small>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">كلمة المرور</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  id="password"
+                  formControlName="password"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+                  placeholder="أدخل كلمة المرور"
+                />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  (click)="togglePasswordVisibility()"
+                >
+                  <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+              </div>
+              <div *ngIf="submitted && f['password'].errors" class="invalid-feedback d-block">
+                <div *ngIf="f['password'].errors['required']">كلمة المرور مطلوبة</div>
+                <div *ngIf="f['password'].errors['minlength']">
+                  كلمة المرور يجب أن تكون على الأقل 6 أحرف
+                </div>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  id="confirmPassword"
+                  formControlName="confirmPassword"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && (f['confirmPassword'].errors || registerForm.hasError('mismatch')) }"
+                  placeholder="أعد إدخال كلمة المرور"
+                />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  (click)="toggleConfirmPasswordVisibility()"
+                >
+                  <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+              </div>
+              <div *ngIf="submitted && (f['confirmPassword'].errors || registerForm.hasError('mismatch'))" class="invalid-feedback d-block">
+                <div *ngIf="f['confirmPassword'].errors?.['required']">تأكيد كلمة المرور مطلوب</div>
+                <div *ngIf="registerForm.hasError('mismatch')">
+                  كلمتا المرور غير متطابقتين
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional fields for nurse registration -->
+            <div *ngIf="userType === 'nurse'" class="mb-4">
+              <h5 class="mb-3">مستندات التحقق</h5>
+              <p class="text-muted mb-3">
+                يرجى تحميل المستندات التالية للتحقق من هويتك ومؤهلاتك (صيغ مقبولة: PDF, JPG, PNG)
+              </p>
+              
+              <!-- License -->
+              <div class="mb-3">
+                <label class="form-label">رخصة مزاولة المهنة</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileChange($event, docTypeEnum.License)"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    [ngClass]="{ 'is-invalid': submitted && userType === 'nurse' && !licenseFile }"
+                  />
+                </div>
+                <div *ngIf="submitted && userType === 'nurse' && !licenseFile" class="invalid-feedback d-block">
+                  رخصة مزاولة المهنة مطلوبة
+                </div>
+                <div *ngIf="licenseFile" class="mt-1 text-success">
+                  <i class="bi bi-check-circle-fill me-1"></i>
+                  {{ licenseFile.name }} ({{ (licenseFile.size / 1024).toFixed(2) }} كيلوبايت)
+                </div>
+              </div>
+              
+              <!-- Graduation Certificate -->
+              <div class="mb-3">
+                <label class="form-label">شهادة التخرج</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileChange($event, docTypeEnum.GraduationCertificate)"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    [ngClass]="{ 'is-invalid': submitted && userType === 'nurse' && !graduationCertificateFile }"
+                  />
+                </div>
+                <div *ngIf="submitted && userType === 'nurse' && !graduationCertificateFile" class="invalid-feedback d-block">
+                  شهادة التخرج مطلوبة
+                </div>
+                <div *ngIf="graduationCertificateFile" class="mt-1 text-success">
+                  <i class="bi bi-check-circle-fill me-1"></i>
+                  {{ graduationCertificateFile.name }} ({{ (graduationCertificateFile.size / 1024).toFixed(2) }} كيلوبايت)
+                </div>
+              </div>
+              
+              <!-- Criminal Record -->
+              <div class="mb-3">
+                <label class="form-label">صحيفة الحالة الجنائية</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileChange($event, docTypeEnum.CriminalRecord)"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    [ngClass]="{ 'is-invalid': submitted && userType === 'nurse' && !criminalRecordFile }"
+                  />
+                </div>
+                <div *ngIf="submitted && userType === 'nurse' && !criminalRecordFile" class="invalid-feedback d-block">
+                  صحيفة الحالة الجنائية مطلوبة
+                </div>
+                <div *ngIf="criminalRecordFile" class="mt-1 text-success">
+                  <i class="bi bi-check-circle-fill me-1"></i>
+                  {{ criminalRecordFile.name }} ({{ (criminalRecordFile.size / 1024).toFixed(2) }} كيلوبايت)
+                </div>
+              </div>
+              
+              <!-- Syndicate Card -->
+              <div class="mb-3">
+                <label class="form-label">كارنيه النقابة</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-file-earmark-text"></i></span>
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileChange($event, docTypeEnum.SyndicateCard)"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    [ngClass]="{ 'is-invalid': submitted && userType === 'nurse' && !syndicateCardFile }"
+                  />
+                </div>
+                <div *ngIf="submitted && userType === 'nurse' && !syndicateCardFile" class="invalid-feedback d-block">
+                  كارنيه النقابة مطلوب
+                </div>
+                <div *ngIf="syndicateCardFile" class="mt-1 text-success">
+                  <i class="bi bi-check-circle-fill me-1"></i>
+                  {{ syndicateCardFile.name }} ({{ (syndicateCardFile.size / 1024).toFixed(2) }} كيلوبايت)
+                </div>
+              </div>
+              
+              <div class="alert alert-info">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                سيتم مراجعة هذه المستندات من قبل فريقنا للتحقق من صحتها قبل تفعيل حسابك كممرض
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mt-2"
+              [disabled]="loading"
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm me-2"
+              ></span>
+              إنشاء حساب
+            </button>
+          </form>
+
+          <div class="register-footer text-center mt-4">
+            <p>
+              لديك حساب بالفعل؟
+              <a routerLink="/account/login" class="login-link">تسجيل الدخول</a>
+            </p>
+          </div>
         </div>
-        <div class="mb3">
-            <label for="lastName" class="form-label">الاسم الاخير</label>
-            <input type="text" id="lastName" name="lastName" class="form-control" required>
-        </div>
-        <div class="mb3">
-            <label for="lastName" class="form-label">تاريخ الميلاد</label>
-            <input type="date" id="lastName" name="lastName" class="form-control" required>
-        </div>
-        <div class="mb3">
-            <label for="gender" class="form-label">النوع</label>
-            <select name="gender" id="gender" class="form-control">
-                <option value="male">ذكر</option>
-                <option value="female">أنثى</option>
-            </select>
-        </div>
-        <div class="mb3">
-            <label for="email" class="form-label">البريد الإلكتروني</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-        </div>
-        <div class="mb3">
-            <label for="password" class="form-label">كلمة المرور</label>
-            <input type="password" id="password" name="password" class="form-control" required>
-        </div>
-        <div class="mb3">
-            <label for="confirmPassword">تأكيد كلمة المرور</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-        </div>
-    </form>
+      </div>
+    </div>
+  </div>
 </section>

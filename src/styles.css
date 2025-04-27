@@ -1,46 +1,99 @@
-:root{
-    --primary-color: #218eb6;
-    --secondary-color: #e48b4e;
-    --font-family: 'Arial', sans-serif;
-}
-html{
-    font-size: 18px;
-    box-sizing: border-box;
-    font-weight: 400;
-    @media screen and (max-width: 768px){
-        font-size: 16px;
-        
-    }
+:root {
+  --primary-color: #009ddb;
+  --primary-light: #4cb8e5;
+  --primary-dark: #0080b3;
+  --secondary-color: #f38b36;
+  --secondary-light: #f7a964;
+  --secondary-dark: #d97520;
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --background-light: #f8fbfd;
+  --background-gray: #f0f4f7;
+  --error: #e53935;
+  --success: #43a047;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 157, 219, 0.1);
+  --transition: all 0.3s ease;
 }
 
-.button{
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    &:hover{
-        background-color: var(--secondary-color);
-    }
-    @media screen and (max-width: 768px){
-        padding: 8px 16px;
-        
-    }
+body {
+  font-family: "Cairo", "Roboto", sans-serif;
+  color: var(--text-dark);
+  background-color: var(--background-light);
+  margin: 0;
+  padding: 0;
+  direction: rtl;
 }
-.form-btn{
-    width: 100%; 
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 5px 0;
-    margin-top: 15px;
-    &:hover{
-        background-color: var(--primary-color);
-        color: white;
-    }
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-light);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  box-shadow: 0 4px 8px rgba(0, 157, 219, 0.2);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--text-light);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: var(--secondary-dark);
+  border-color: var(--secondary-dark);
+  box-shadow: 0 4px 8px rgba(243, 139, 54, 0.2);
+}
+
+.form-control {
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 157, 219, 0.25);
+}
+
+.card {
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 157, 219, 0.15);
+}
+
+.section-title {
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: var(--secondary-color);
 }

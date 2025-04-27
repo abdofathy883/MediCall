@@ -1,19 +1,134 @@
-<section class="container d-flex justify-content-center align-items-center login">
-    <div class="d-flex justify-content-center align-items-center flex-column form-container">
-        <form action="">
-            <div class="mb-3">
-                <label for="email" class="form-label">البريد الإلكتروني</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+<section class="login-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="login-card">
+          <div class="login-header text-center">
+            <img
+              src="/MediCall-logo.png"
+              alt="MediCall Logo"
+              class="login-logo"
+            />
+            <h2 class="mt-4 mb-3">مرحباً بعودتك</h2>
+            <p class="text-muted">قم بتسجيل الدخول للوصول إلى حسابك</p>
+          </div>
+
+          <!-- Alert for login errors -->
+          <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
+          </div>
+
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+            class="login-form"
+          >
+            <div class="form-group mb-3">
+              <label for="email" class="form-label">البريد الإلكتروني</label>
+              <div class="input-group">
+                <span class="input-group-text"
+                  ><i class="bi bi-envelope"></i
+                ></span>
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                  placeholder="أدخل بريدك الإلكتروني"
+                />
+              </div>
+              <div
+                *ngIf="submitted && f['email'].errors"
+                class="invalid-feedback d-block"
+              >
+                <div *ngIf="f['email'].errors['required']">
+                  البريد الإلكتروني مطلوب
+                </div>
+                <div *ngIf="f['email'].errors['email']">
+                  يرجى إدخال بريد إلكتروني صحيح
+                </div>
+              </div>
             </div>
-            <div class="mb-3">
+
+            <div class="form-group mb-4">
+              <div class="d-flex justify-content-between">
                 <label for="password" class="form-label">كلمة المرور</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+                <a routerLink="/account/reset-password" class="forgot-password"
+                  >نسيت كلمة المرور؟</a
+                >
+              </div>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  id="password"
+                  formControlName="password"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['password'].errors
+                  }"
+                  placeholder="أدخل كلمة المرور"
+                />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  (click)="togglePasswordVisibility()"
+                >
+                  <i
+                    class="bi"
+                    [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                  ></i>
+                </button>
+              </div>
+              <div
+                *ngIf="submitted && f['password'].errors"
+                class="invalid-feedback d-block"
+              >
+                <div *ngIf="f['password'].errors['required']">
+                  كلمة المرور مطلوبة
+                </div>
+                <div *ngIf="f['password'].errors['minlength']">
+                  كلمة المرور يجب أن تكون على الأقل 6 أحرف
+                </div>
+              </div>
             </div>
-            <input type="submit" class="btn form-btn" value="تسجيل الدخول">
-        </form>
-        <div class="d-flex justify-content-center align-items-center flex-column">
-            <p class="mt-1">ليس لديك حساب؟ <a routerLink="/register">إنشاء حساب</a></p>
-            <p>نسيت كلمة المرور؟ <a href="/reset-password">استعادة كلمة المرور</a></p>
+
+            <div class="form-group mb-4">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="rememberMe"
+                  formControlName="rememberMe"
+                />
+                <label class="form-check-label" for="rememberMe">تذكرني</label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="loading"
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm me-2"
+              ></span>
+              تسجيل الدخول
+            </button>
+          </form>
+
+          <div class="login-footer text-center mt-4">
+            <p>
+              ليس لديك حساب؟
+              <a routerLink="/account/register" class="register-link"
+                >إنشاء حساب جديد</a
+              >
+            </p>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
