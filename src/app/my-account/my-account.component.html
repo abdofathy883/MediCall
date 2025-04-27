@@ -1,23 +1,17 @@
-<section></section>
-
 <section class="container my-4">
-    <div class="row">
-        <div class="col-md-3 col-sm-12">
-            <img src="/profile-placeholder.png" alt="" class="mx-auto d-block rounded-circle" width="150" height="150" />
-        </div>
-        <div class="col-md-9 col-sm-12 d-flex flex-column justify-content-center align-items-start">
-            <h2>أهلا, username</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </div>
-    </div>
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <h2>أهلا, username</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+  </div>
 </section>
 <section class="container my-4">
-  <div class="d-flex align-items-start">
+  <div class="d-flex align-items-start flex-sm-wrap flex-lg-nowrap">
     <div
-      class="nav flex-column nav-pills me-3"
+      class="nav flex-column nav-pills me-4"
       id="v-pills-tab"
       role="tablist"
       aria-orientation="vertical"
+      style="width: 20%;"
     >
       <button
         class="nav-link active"
@@ -43,80 +37,85 @@
       >
         الزيارات
       </button>
-      <button
-        class="nav-link"
-        id="v-pills-disabled-tab"
-        data-bs-toggle="pill"
-        data-bs-target="#v-pills-disabled"
-        type="button"
-        role="tab"
-        aria-controls="v-pills-disabled"
-        aria-selected="false"
-        
-      >
-        Disabled
-      </button>
-      <button
-        class="nav-link"
-        id="v-pills-messages-tab"
-        data-bs-toggle="pill"
-        data-bs-target="#v-pills-messages"
-        type="button"
-        role="tab"
-        aria-controls="v-pills-messages"
-        aria-selected="false"
-      >
-        Messages
-      </button>
-      <button
-        class="btn btn-danger mt-1"
-      >
+      <button class="btn btn-danger mt-1" (onclick)="logOut()">
         تسجيل الخروج
       </button>
     </div>
     <div class="tab-content w-100" id="v-pills-tabContent">
       <div
-        class="tab-pane fade show active "
+        class="tab-pane fade show active"
         id="v-pills-home"
         role="tabpanel"
         aria-labelledby="v-pills-home-tab"
         tabindex="0"
       >
-      <h5>ffff</h5>
-      <p>lo</p>
-      <form action="">
-        <div class="row g-3">
+        <form action="">
+          <div class="row g-3">
             <div class="col-md-6">
-                <label for="firstName" class="form-label">الاسم الأول</label>
-                <input type="text" class="form-control" id="firstName" placeholder="الاسم الأول" />
+              <label for="firstName" class="form-label">الاسم الأول</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                placeholder="الاسم الأول"
+              />
             </div>
             <div class="col-md-6">
-                <label for="lastName" class="form-label">الاسم الأخير</label>
-                <input type="text" class="form-control" id="lastName" placeholder="الاسم الأخير" />
+              <label for="lastName" class="form-label">الاسم الأخير</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                placeholder="الاسم الأخير"
+              />
             </div>
-        </div>
-        <div class="row mt-3">
+          </div>
+          <div class="row mt-3">
             <div class="col">
-                <label for="email" class="form-label">البريد الإلكتروني</label>
-                <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني" style="direction: rtl;"/>
+              <label for="email" class="form-label">البريد الإلكتروني</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="البريد الإلكتروني"
+                style="direction: rtl"
+              />
             </div>
             <div class="col">
-                <label for="phone" class="form-label">رقم الهاتف</label>
-                <input type="tel" class="form-control" id="phone" placeholder="رقم الهاتف" style="direction: rtl;"/>
+              <label for="phone" class="form-label">رقم الهاتف</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                placeholder="رقم الهاتف"
+                style="direction: rtl"
+              />
             </div>
-        </div>
-        <div class="row mt-3">
+          </div>
+          <div class="row mt-3">
             <div class="col">
-                <label for="password" class="form-label">كلمة المرور</label>
-                <input type="text" class="form-control" id="password" placeholder="كلمة المرور" />
+              <label for="password" class="form-label">كلمة المرور</label>
+              <input
+                type="text"
+                class="form-control"
+                id="password"
+                placeholder="كلمة المرور"
+              />
             </div>
             <div class="col">
-                <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
-                <input type="text" class="form-control" id="confirmPassword" placeholder="تأكيد كلمة المرور" />
+              <label for="confirmPassword" class="form-label"
+                >تأكيد كلمة المرور</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="confirmPassword"
+                placeholder="تأكيد كلمة المرور"
+              />
             </div>
-        </div>
-        <input type="submit" class="form-btn" value="تحديث البيانات" />
-    </form>
+          </div>
+          <input type="submit" class="form-btn" value="تحديث البيانات" />
+        </form>
       </div>
       <div
         class="tab-pane fade"
@@ -126,64 +125,35 @@
         tabindex="0"
       >
         <table class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">اسم المريض</th>
-                    <th scope="col">اسم الممرض</th>
-                    <th scope="col">رقم الهاتف</th>
-                    <th scope="col">تاريخ الشكوى</th>
-                    <th scope="col">تفاصيل الشكوى</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>John Doe</td>
-                    <td>Jane Smith</td>
-                    <td>123-456-7890</td>
-                    <td>2023-10-01</td>
-                    <td>Lorem ipsum dolor sit amet.</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Mary Johnson</td>
-                    <td>Michael Brown</td>
-                    <td>987-654-3210</td>
-                    <td>2023-10-02</td>
-                    <td>Lorem ipsum dolor sit amet.</td>
-                </tr>
-                </tbody>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">اسم المريض</th>
+              <th scope="col">اسم الممرض</th>
+              <th scope="col">رقم الهاتف</th>
+              <th scope="col">تاريخ الشكوى</th>
+              <th scope="col">تفاصيل الشكوى</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>John Doe</td>
+              <td>Jane Smith</td>
+              <td>123-456-7890</td>
+              <td>2023-10-01</td>
+              <td>Lorem ipsum dolor sit amet.</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Mary Johnson</td>
+              <td>Michael Brown</td>
+              <td>987-654-3210</td>
+              <td>2023-10-02</td>
+              <td>Lorem ipsum dolor sit amet.</td>
+            </tr>
+          </tbody>
         </table>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="v-pills-disabled"
-        role="tabpanel"
-        aria-labelledby="v-pills-disabled-tab"
-        tabindex="0"
-      >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui corporis
-        cum ipsam, vitae asperiores voluptatum ut magnam a. Ipsam dolores optio
-        veritatis ex. Adipisci natus eos harum doloribus veniam facilis?
-      </div>
-      <div
-        class="tab-pane fade"
-        id="v-pills-messages"
-        role="tabpanel"
-        aria-labelledby="v-pills-messages-tab"
-        tabindex="0"
-      >
-        ...
-      </div>
-      <div
-        class="tab-pane fade"
-        id="v-pills-settings"
-        role="tabpanel"
-        aria-labelledby="v-pills-settings-tab"
-        tabindex="0"
-      >
-        ...
       </div>
     </div>
   </div>

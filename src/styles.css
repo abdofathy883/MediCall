@@ -44,3 +44,6 @@ html{
         color: white;
     }
 }
+input{
+    direction: rtl;
+}

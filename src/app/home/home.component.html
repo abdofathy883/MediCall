@@ -1,54 +1,107 @@
+<!-- Hero -->
+<section class="container py-5">
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <h1 class="hero-title">map</h1>
+      
+    </div>
+    <div class="col-md-6 col-sm-12 d-flex flex-column justify-content-center">
+      <h1>احجز</h1>
+      <p class="hero-text">
+        احجز موعدك في ميدي كول بسهولة ويسر. اختر الخدمة المناسبة لك، وحدد
+        تاريخ الزيارة، واملأ المعلومات الإضافية.
+      </p>
+      <form action="">
+        <div class="row mb-3">
+          <div class="col">
+            <label for="services" class="form-label">الاسم</label>
+            <select name="services" id="services" class="form-select">
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="scheduleDate" class="form-label">تاريخ الزيارة</label>
+            <input type="date" id="scheduleDate" class="form-control" />
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="notes" class="form-label">معلومات اضافية</label>
+          <textarea
+            name="notes"
+            id="notes"
+            rows="3"
+            class="form-control"
+            placeholder="اكتب ملاحظاتك هنا..."></textarea>
+        </div>
+
+        <input type="submit" class="btn form-btn mt-3" value="احجز موعدك" />
+      </form>
+    </div>
+  </div>
+</section>
 <!-- Services -->
 <section class="container py-4">
-    <h2 class="text-center py-3">خدماتنا في ميدي كول</h2>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col">
-          <div class="card pt-3">
-            <img src="..." class="mx-auto d-block" alt="...">
-            <div class="card-body">
-              <h5 class="text-center">خدمة 1</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card pt-3">
-            <img src="..." class="mx-auto d-block" alt="...">
-            <div class="card-body">
-              <h5 class="text-center">خدمة 2</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card pt-3">
-            <img src="..." class="mx-auto d-block" alt="...">
-            <div class="card-body">
-              <h5 class="text-center">خدمة 3</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card pt-3">
-            <img src="..." class="mx-auto d-block" alt="...">
-            <div class="card-body">
-              <h5 class="text-center">خدمة 4</h5>
-            </div>
-          </div>
+  <h2 class="text-center py-3">خدماتنا في ميدي كول</h2>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card pt-3">
+        <img src="..." class="mx-auto d-block" alt="..." />
+        <div class="card-body">
+          <h5 class="text-center">خدمة 1</h5>
         </div>
       </div>
+    </div>
+    <div class="col">
+      <div class="card pt-3">
+        <img src="..." class="mx-auto d-block" alt="..." />
+        <div class="card-body">
+          <h5 class="text-center">خدمة 2</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card pt-3">
+        <img src="..." class="mx-auto d-block" alt="..." />
+        <div class="card-body">
+          <h5 class="text-center">خدمة 3</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card pt-3">
+        <img src="..." class="mx-auto d-block" alt="..." />
+        <div class="card-body">
+          <h5 class="text-center">خدمة 4</h5>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+<!-- how it works -->
+
 <!-- contact and complaint -->
 <section class="container">
-    <div class="row">
-        <div class="col-md-6 col-sm-12 d-flex flex-column justify-content-center">
-            <h4>نحن نهتم لامرك</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis deleniti architecto provident praesentium. Totam.</p>
-            <div>
-                <a routerLink="/contact" class="btn com-btn">تواصل معنا</a>
-                <a routerLink="/complaints" class="btn com-btn">تقديم شكوى</a>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <img src="/Medical care-cuate.svg" width="85%" class="mx-auto d-block" alt="">
-        </div>
+  <div class="row">
+    <div class="col-md-6 col-sm-12 d-flex flex-column justify-content-center">
+      <h4>نحن نهتم لامرك</h4>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
+        deleniti architecto provident praesentium. Totam.
+      </p>
+      <div>
+        <a routerLink="/contact" class="btn com-btn">تواصل معنا</a>
+        <a routerLink="/complaints" class="btn com-btn">تقديم شكوى</a>
+      </div>
     </div>
+    <div class="col-md-6 col-sm-12">
+      <img
+        src="/Medical care-cuate.svg"
+        width="85%"
+        class="mx-auto d-block"
+        alt=""
+      />
+    </div>
+  </div>
 </section>

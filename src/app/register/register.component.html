@@ -4,35 +4,35 @@
     <div class="alert alert-info text-center mb-4" role="alert">
         إذا كان لديك حساب بالفعل، يمكنك <a [routerLink]="'/login'">تسجيل الدخول هنا</a>.
     </div>
-    <form action=""  method="post">
+    <form method="post" (ngSubmit)="onSubmit()">
         <div class="row mb-3">
             <div class="col">
                 <label for="name" class="form-label">الاسم الاول</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <input type="text" id="name" name="name" class="form-control" [(ngModel)]="user.firstName" required>
             </div>
             <div class="col">
                 <label for="lastName" class="form-label">الاسم الاخير</label>
-                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                <input type="text" id="lastName" name="lastName" class="form-control" [(ngModel)]="user.lastName" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label for="nationalId" class="form-label">الرقم القومي</label>
-                <input type="text" id="nationalId" name="nationalId" class="form-control" required>
+                <input type="text" id="nationalId" name="nationalId" class="form-control" [(ngModel)]="user.nationalId" required>
             </div>
             <div class="col">
                 <label for="phone" class="form-label">رقم الهاتف</label>
-                <input type="tel" id="phone" name="phone" class="form-control" required>
+                <input type="tel" id="phone" name="phone" class="form-control" [(ngModel)]="user.phone" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
-                <label for="lastName" class="form-label">تاريخ الميلاد</label>
-                <input type="date" id="lastName" name="lastName" class="form-control" required>
+                <label for="dateOfBirth" class="form-label">تاريخ الميلاد</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" [(ngModel)]="user.dateOfBirth" required>
             </div>
             <div class="col">
                 <label for="gender" class="form-label">النوع</label>
-                <select name="gender" id="gender" class="form-select">
+                <select name="gender" id="gender" class="form-select" [(ngModel)]="user.gender" required>
                     <option value="" disabled selected>اختر النوع</option>
                     <option value="male">ذكر</option>
                     <option value="female">أنثى</option>
@@ -42,12 +42,12 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+                <input type="email" id="email" name="email" class="form-control" [(ngModel)]="user.email" required>
             </div>
             
             <div class="col">
-                <label for="profileImage" class="form-label">الدور</label>
-                <select name="role" id="role" class="form-select">
+                <label for="role" class="form-label">الدور</label>
+                <select name="role" id="role" class="form-select" [(ngModel)]="user.Role" required>
                     <option value="" disabled selected>اختر الدور</option>
                     <option value="admin">مدير</option>
                     <option value="user">مستخدم</option>
@@ -59,11 +59,11 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="password" class="form-label">كلمة المرور</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+                <input type="password" id="password" name="password" class="form-control" [(ngModel)]="user.password" required>
             </div>
             <div class="col">
                 <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" [(ngModel)]="user.confirmPassword" required>
             </div>
         </div>
         <input type="submit" value="تسجيل" class="form-btn">

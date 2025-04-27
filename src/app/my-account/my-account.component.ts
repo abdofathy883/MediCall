@@ -1,4 +1,7 @@
+import { CoockiesService } from './../Services/Cookies/coockies.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserManagementService } from '../Services/user-management.service';
 
 @Component({
   selector: 'app-my-account',
@@ -8,4 +11,22 @@ import { Component } from '@angular/core';
 })
 export class MyAccountComponent {
 
+  constructor(private router: Router, private userService: UserManagementService, private cookiesService: CoockiesService) { }
+
+  // Add any methods or properties you need for your component here
+  // For example, you might want to fetch user data from a service and display it in the template
+  logOut() {
+    localStorage.removeItem('authtoken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userPhone');
+    localStorage.removeItem('userLocationLat');
+    localStorage.removeItem('userLocationLng');
+    this.cookiesService.deleteCookie('refreshToken'); // Delete the refresh token cookie
+    // this.userService.isLoggedIn.next(false); // Update the login status in the service
+    // Optionally, you can redirect to the login page or home page after logout
+    this.router.navigate(['/login']);
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
+import { UserManagementService } from './Services/user-management.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,13 @@ import { FooterComponent } from "./footer/footer.component";
 })
 export class AppComponent {
   title = 'MediCall';
+  isLoggedIn: boolean = false;
+
+  constructor(private userService: UserManagementService) {}
+
+  ngOnInit() {
+    this.userService.isLoggedIn.subscribe(status => {
+      this.isLoggedIn = status;
+    });
+  }
 }

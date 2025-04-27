@@ -47,11 +47,13 @@
           <button class="button">تسجيل الدخول</button>
         </a>
       </div>
-      <div>
-        <a routerLink="/my-account">
-          <i class="bi bi-person-circle"></i>
-        </a>
-      </div>
+      @if (isLoggedIn) {
+        <div>
+          <a routerLink="/my-account">
+            <i class="bi bi-person-circle"></i>
+          </a>
+        </div>
+      } 
     </div>
   </div>
 </header>
