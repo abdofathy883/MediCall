@@ -12,6 +12,9 @@ html{
         
     }
 }
+.swal-alert{
+    z-index: 2000000 !important;
+}
 
 .button{
     background-color: var(--primary-color);

@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutUsComponent } from './about-us/about-us.component';
@@ -7,11 +8,17 @@ import { LogInComponent } from './log-in/log-in.component';
 import { RegisterComponent } from './register/register.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { MyAccountComponent } from './my-account/my-account.component';
+import { MapPageComponent } from './map-page/map-page.component';
+import { RegisterNurseComponent } from './register-nurse/register-nurse.component';
 
 export const routes: Routes = [
     {
         path: '',
         component: HomeComponent
+    },
+    {
+        path: 'map',
+        component: MapPageComponent
     },
     {
         path: 'about-us',
@@ -32,6 +39,10 @@ export const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'register-nurse',
+        component: RegisterNurseComponent
     },
     {
         path: 'my-account',

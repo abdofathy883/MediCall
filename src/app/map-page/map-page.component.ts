@@ -1,21 +1,22 @@
-import { VisitService } from './../Services/Visits/visit.service';
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { GoogleMapService } from '../Services/google-map.service';
+import { Component, OnInit } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
-import { NewVisit } from '../Services/Visits/visit.service';
+import { GoogleMapService } from '../Services/google-map.service';
 import { NgForm } from '@angular/forms';
+import { NewVisit, VisitService } from '../Services/Visits/visit.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import Swal from 'sweetalert2';
 @Component({
-  selector: 'app-home',
-  imports: [RouterLink, GoogleMap, MapMarker],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  selector: 'app-map-page',
+  imports: [GoogleMap, MapMarker, SweetAlert2Module],
+  standalone: true,
+  templateUrl: './map-page.component.html',
+  styleUrl: './map-page.component.css',
 })
-export class HomeComponent {
+export class MapPageComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   myLocationMarker!: google.maps.LatLngLiteral;
-  driverMarkers: google.maps.LatLngLiteral[] = [];
+  nursesMarkers: google.maps.LatLngLiteral[] = [];
+  availableNurses: string[] = ['Abdo', 'Abdooo'];
   zoom = 18;
 
   formData: NewVisit = {
@@ -47,15 +48,15 @@ export class HomeComponent {
           console.log('Location sent!');
         });
       // get nearby drivers
-      this.loadNearbyDrivers();
+      this.loadNearbyNurses();
     });
   }
 
-  loadNearbyDrivers() {
+  loadNearbyNurses() {
     this.mapService
       .getNearbyNurses(this.center.lat, this.center.lng)
       .subscribe((drivers) => {
-        this.driverMarkers = drivers.map((d) => ({
+        this.nursesMarkers = drivers.map((d) => ({
           lat: d.latitude,
           lng: d.longitude,
         }));
@@ -79,7 +80,13 @@ export class HomeComponent {
     }
   }
 
-  thanksAlert(): void{
-    
+  thanksAlert() {
+    Swal.fire({
+      title: 'Drag me!',
+      icon: 'success',
+      customClass: {
+        container: 'swal-alert'
+      }
+    });
   }
 }

@@ -2,14 +2,21 @@
 <section class="container py-5">
   <div class="row">
     <div class="col-md-6 col-sm-12">
-      <h1 class="hero-title">map</h1>
-      
+      <google-map [center]="center">
+        <map-marker
+          [position]="myLocationMarker"
+          [label]="'You'"
+          [title]="'Your Location'"
+          [icon]="{url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}"
+        >
+        </map-marker>
+      </google-map>
     </div>
     <div class="col-md-6 col-sm-12 d-flex flex-column justify-content-center">
       <h1>احجز</h1>
       <p class="hero-text">
-        احجز موعدك في ميدي كول بسهولة ويسر. اختر الخدمة المناسبة لك، وحدد
-        تاريخ الزيارة، واملأ المعلومات الإضافية.
+        احجز موعدك في ميدي كول بسهولة ويسر. اختر الخدمة المناسبة لك، وحدد تاريخ
+        الزيارة، واملأ المعلومات الإضافية.
       </p>
       <form action="">
         <div class="row mb-3">
@@ -33,7 +40,8 @@
             id="notes"
             rows="3"
             class="form-control"
-            placeholder="اكتب ملاحظاتك هنا..."></textarea>
+            placeholder="اكتب ملاحظاتك هنا..."
+          ></textarea>
         </div>
 
         <input type="submit" class="btn form-btn mt-3" value="احجز موعدك" />

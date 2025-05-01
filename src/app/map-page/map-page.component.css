@@ -1,0 +1,24 @@
+.form-div, .nurses-group, .accepted-nurse{
+    width: 40%;
+    background-color: white;
+    border-radius: 15px;
+    z-index: 100000;
+    position: absolute;
+    top: 550px;
+    left: 30px;
+    padding: 25px;
+}
+.nurses-group{
+    padding: 10px 25px;
+}
+    
+
+.single-nurse{
+    border-radius: 15px;
+    background-color: rgb(84, 158, 207, 0.5);
+}
+
+h5{
+    color: var(--secondary-color);
+}
+

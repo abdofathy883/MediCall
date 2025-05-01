@@ -14,33 +14,33 @@ import { ContactForm, ContactFromServiceService } from '../Services/contact-from
 })
 export class ContactComponent {
 
-  // formData: ContactForm = {
-  //   name: '',
-  //   phone: '',
-  //   email: '',
-  //   message: '',
-  //   timeStamp: new Date()
-  // };
+  formData: ContactForm = {
+    name: '',
+    phone: '',
+    email: '',
+    message: '',
+    timeStamp: new Date()
+  };
 
-  // constructor(private ContactService: ContactFromServiceService) { }
+  constructor(private ContactService: ContactFromServiceService) { }
 
-  // onSubmit(form: NgForm) : void {
-  //   if (form.valid) {
-  //     this.formData.timeStamp = new Date(); // Update the timestamp on form submission
-  //     this.ContactService.sendContactForm(this.formData).subscribe({
-  //       next: (response) => {
-  //         console.log('Form submitted successfully:', response);
-  //         form.reset(); // Reset the form after successful submission
+  onSubmit(form: NgForm) : void {
+    if (form.valid) {
+      this.formData.timeStamp = new Date(); // Update the timestamp on form submission
+      this.ContactService.sendContactForm(this.formData).subscribe({
+        next: (response) => {
+          console.log('Form submitted successfully:', response);
+          form.reset(); // Reset the form after successful submission
           
-  //         // Optionally, you can show a success message to the user here
-  //         alert('Your message has been sent successfully!');
+          // Optionally, you can show a success message to the user here
+          alert('Your message has been sent successfully!');
 
-  //       },
-  //       error: (error) => {
-  //         console.error('Error submitting form:', error);
-  //       }
-  //     });
-  //   } 
+        },
+        error: (error) => {
+          console.error('Error submitting form:', error);
+        }
+      });
+    } 
 
-  // }
+  }
 }
