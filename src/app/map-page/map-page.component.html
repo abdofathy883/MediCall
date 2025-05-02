@@ -22,56 +22,93 @@
   }
 </google-map>
 
-
-<div class="form-div">
-    <h3>احجز</h3>
-    <form action="">
+@if (isUserPatient) {
+  @if (!isUserLoggedIn) {
+    <div class="log-in">
+      <h5>سجل دخول اولا لطلب زيارة</h5>
+      <a routerLink="/login">تسجيل دخول</a>
+    </div>
+  }
+  @if (isUserLoggedIn) {
+    <div class="form-div">
+      <h3>احجز</h3>
+      <form action="">
         <div class="row">
-            <div class="col">
-                <label for="" class="form-label">aa</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col">
-                <label for="" class="form-label">aa</label>
-                <input type="text" class="form-control">
-            </div>
+          <div class="col">
+            <label for="" class="form-label">aa</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="col">
+            <label for="" class="form-label">aa</label>
+            <input type="text" class="form-control" />
+          </div>
         </div>
         <div class="row">
-            <div class="col">
-                <label for="" class="form-label">aa</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col">
-                <label for="" class="form-label">aa</label>
-                <input type="text" class="form-control">
-            </div>
+          <div class="col">
+            <label for="" class="form-label">aa</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="col">
+            <label for="" class="form-label">aa</label>
+            <input type="text" class="form-control" />
+          </div>
         </div>
-        <input type="submit" value="ارسال" class="form-btn mb-4">
-    </form>
-</div>
-
-<div class="nurses-group">
-  @for(nurse of availableNurses; track $index){
+        <input type="submit" value="ارسال" class="form-btn mb-4" />
+      </form>
+    </div>
+  }
+  @if(formSubmitted){
+  <div class="nurses-group">
+    @for(nurse of availableNurses; track $index){
     <div class="row py-3 my-3 d-flex align-items-center single-nurse">
       <div class="col-2">
-        <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="">
+        <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="" />
+      </div>
+      <div class="col-10">
+        <h5>nurse</h5>
+        <button class="button" (click)="nurseAccepted()">موافقة</button>
+      </div>
+    </div>
+    }
+  </div>
+  } @if (nurseGotAccepted) {
+  <div>
+    <iframe
+      [src]="iframeUrl"
+      width="100%"
+      height="600"
+      frameborder="0"
+      allowpaymentrequest
+    ></iframe>
+  </div>
+  }
+
+  <div class="accepted-nurse">
+    <div class="row py-3 my-3 d-flex align-items-center single-nurse">
+      <div class="col-2">
+        <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="" />
+      </div>
+      <div class="col-10">
+        <h5>nurse</h5>
+        <button class="button" (click)="thanksAlert()">موافقة</button>
+      </div>
+    </div>
+  </div>
+
+}
+
+@if (isUserNurse) {
+  <div class="accepted-nurse">
+    <div class="row py-3 my-3 d-flex align-items-center single-nurse">
+      <div class="col-2">
+        <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="" />
       </div>
       <div class="col-10">
         <h5>nurse</h5>
         <button class="button">موافقة</button>
       </div>
     </div>
-  }
-</div>
-
-<div class="accepted-nurse">
-  <div class="row py-3 my-3 d-flex align-items-center single-nurse">
-    <div class="col-2">
-      <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="">
-    </div>
-    <div class="col-10">
-      <h5>nurse</h5>
-      <button class="button" (click)="thanksAlert()">موافقة</button>
-    </div>
   </div>
-</div>
+}
+
+

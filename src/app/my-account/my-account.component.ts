@@ -1,5 +1,5 @@
 import { CoockiesService } from './../Services/Cookies/coockies.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserManagementService } from '../Services/user-management.service';
 
@@ -9,10 +9,32 @@ import { UserManagementService } from '../Services/user-management.service';
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.css'
 })
-export class MyAccountComponent {
-
+export class MyAccountComponent implements OnInit {
+  userData: any;
+  userID: string = '';
+  visits: any[] = [];
   constructor(private router: Router, private userService: UserManagementService, private cookiesService: CoockiesService) { }
 
+  ngOnInit(): void {
+    if(!this.userService.isLoggedIn){
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.userID = localStorage.getItem('userID') || '';
+
+    if(this.userID){
+      this.userService.getUserDataByID(this.userID).subscribe({
+        next: (data) => this.userData = data,
+        error: (err) => console.error(`Error fetching user`, err)
+      })
+    }
+
+    this.userService.getVisits().subscribe({
+      next: (data) => this.visits = data,
+      error: (err) => console.error(`Error fetching visits`, err)
+    })
+  }
   // Add any methods or properties you need for your component here
   // For example, you might want to fetch user data from a service and display it in the template
   logOut() {

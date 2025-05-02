@@ -1,11 +1,14 @@
 <section class="container my-5">
     <h1 class="text-center mb-3">تسجيل حساب جديد</h1>
     <p class="text-center mb-3">قم بملء النموذج أدناه لإنشاء حساب جديد.</p>
-    <div class="alert alert-info text-center mb-4" role="alert">
-        إذا كان لديك حساب بالفعل، يمكنك <a [routerLink]="'/login'">تسجيل الدخول هنا</a>.
-    </div>
-    <div class="alert alert-info text-center mb-4" role="alert">
-        إذا كان لديك حساب بالفعل، يمكنك <a [routerLink]="'/register-nurse'">تسجيل حساب ممرض</a>.
+    <div class="row mb-4">
+        <div class="alert alert-info col text-center me-2" role="alert">
+            إذا كان لديك حساب بالفعل، يمكنك <a [routerLink]="'/login'">تسجيل الدخول هنا</a>.
+        </div>
+        <div class="alert alert-info col text-center ms-2" role="alert">
+            اعمل معنا الان, يمكنك <a [routerLink]="'/register-nurse'">تسجيل حساب ممرض</a>.
+        </div>
+
     </div>
     <form method="post" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div class="row mb-3">

@@ -1,23 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Patient, UserManagementService } from './../Services/user-management.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { GoogleMapService } from '../Services/google-map.service';
 import { NgForm } from '@angular/forms';
 import { NewVisit, VisitService } from '../Services/Visits/visit.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
+import { PaymentService } from '../Services/Payment/payment.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-map-page',
-  imports: [GoogleMap, MapMarker, SweetAlert2Module],
+  imports: [GoogleMap, MapMarker, SweetAlert2Module, RouterLink],
   standalone: true,
   templateUrl: './map-page.component.html',
   styleUrl: './map-page.component.css',
 })
 export class MapPageComponent implements OnInit {
+  private paymentService = inject(PaymentService)
+  private sanitizer = inject(DomSanitizer)
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   myLocationMarker!: google.maps.LatLngLiteral;
   nursesMarkers: google.maps.LatLngLiteral[] = [];
   availableNurses: string[] = ['Abdo', 'Abdooo'];
   zoom = 18;
+  formSubmitted: boolean = true;
+  nurseGotAccepted: boolean = true;
+  iframeUrl!: SafeResourceUrl;
+  isUserLoggedIn: boolean = true;
+
+  isUserNurse: boolean = false;
+  isUserPatient: boolean = false;
+
 
   formData: NewVisit = {
     Location: {
@@ -31,7 +45,8 @@ export class MapPageComponent implements OnInit {
 
   constructor(
     private mapService: GoogleMapService,
-    private visit: VisitService
+    private visit: VisitService,
+    private userService: UserManagementService
   ) {}
   ngOnInit(): void {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -49,6 +64,18 @@ export class MapPageComponent implements OnInit {
         });
       // get nearby drivers
       this.loadNearbyNurses();
+
+      if(this.userService.isLoggedIn){
+        this.isUserLoggedIn = true;
+      }
+
+      if(this.userService.isNurse()){
+        this.isUserNurse = true;
+      }
+
+      if(this.userService.isPatient()){
+        this.isUserPatient = true;
+      }
     });
   }
 
@@ -69,7 +96,7 @@ export class MapPageComponent implements OnInit {
         next: (response) => {
           console.log('Form submitted successfully:', response);
           form.reset(); // Reset the form after successful submission
-
+          this.formSubmitted = true;
           // Optionally, you can show a success message to the user here
           alert('Your message has been sent successfully!');
         },
@@ -82,11 +109,20 @@ export class MapPageComponent implements OnInit {
 
   thanksAlert() {
     Swal.fire({
-      title: 'Drag me!',
+      title: 'تم ارسال طلبك بنجاح!',
       icon: 'success',
+      confirmButtonText: 'تم',
       customClass: {
         container: 'swal-alert'
       }
     });
+  }
+
+  nurseAccepted(){
+    this.nurseGotAccepted = true;
+    this.paymentService.getIframeData().subscribe(data => {
+      const url = `https://accept.paymobsolutions.com/api/acceptance/iframes/${data.iframeId}?payment_token=${data.paymentKey}`;
+      this.iframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    })
   }
 }

@@ -232,7 +232,7 @@ export class UserManagementService {
   }
 
   getUserInfo(): Observable<User> {
-    return this.http.get<User>(this.apiURL + 'account/my-account').pipe(
+    return this.http.get<User>(this.apiURL + '/my-account').pipe(
       tap((user) => {
         this.userSubject.next(user);
         this.currentUser.set(user);
@@ -273,6 +273,14 @@ export class UserManagementService {
           return throwError(() => error);
         })
       );
+  }
+
+  getUserDataByID(id: string): Observable<any>{
+    return this.http.get(`${this.apiURL}/${id}`)
+  }
+
+  getVisits(): Observable<any[]>{
+    return this.http.get<any[]>(`${this.apiURL}`)
   }
 
   logout(): Observable<any> {
