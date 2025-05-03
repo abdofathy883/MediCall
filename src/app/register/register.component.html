@@ -14,31 +14,31 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="name" class="form-label">الاسم الاول</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <input type="text" id="name" name="name" formControlName="firstName" class="form-control" required>
             </div>
             <div class="col">
                 <label for="lastName" class="form-label">الاسم الاخير</label>
-                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                <input type="text" id="lastName" name="lastName" formControlName="lastName" class="form-control" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label for="nationalId" class="form-label">الرقم القومي</label>
-                <input type="text" id="nationalId" name="nationalId" class="form-control" required>
+                <input type="text" id="nationalId" formControlName="nationalId" name="nationalId" class="form-control" required>
             </div>
             <div class="col">
                 <label for="phone" class="form-label">رقم الهاتف</label>
-                <input type="tel" id="phone" name="phone" class="form-control" required>
+                <input type="tel" id="phone" formControlName="phone" name="phone" class="form-control" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label for="dateOfBirth" class="form-label">تاريخ الميلاد</label>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" required>
+                <input type="date" id="dateOfBirth" formControlName="dateOfBirth" name="dateOfBirth" class="form-control" required>
             </div>
             <div class="col">
                 <label for="gender" class="form-label">النوع</label>
-                <select name="gender" id="gender" class="form-select" required>
+                <select name="gender" formControlName="gender" id="gender" class="form-select" required>
                     <option value="" disabled selected>اختر النوع</option>
                     <option value="male">ذكر</option>
                     <option value="female">أنثى</option>
@@ -48,48 +48,34 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="email" class="form-label">البريد الإلكتروني</label>
-                <input type="email" id="email" name="email" class="form-control" required>
+                <input type="email" formControlName="email" id="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="col">
+                <label for="username" class="form-label">البريد الإلكتروني</label>
+                <input type="text" formControlName="userName" id="username" name="username" class="form-control" >
             </div>
             
-            <div class="col">
+            <!-- <div class="col">
                 <label for="role" class="form-label">الدور</label>
                 <select name="role" id="role" class="form-select" required>
                     <option value="" disabled selected>اختر الدور</option>
                     <option value="admin">مدير</option>
                     <option value="user">مستخدم</option>
                     <option value="doctor">طبيب</option>
-                </select>
+                </select> -->
 
-            </div>
+            <!-- </div> -->
         </div>
-        <!-- <div class="row mb-3">
-            <div class="col">
-                <label for="licensefile" class="form-label">رخصة مزاولة المهنة</label>
-                <input type="file" class="form-control" id="licensefile" accept=".pdf,.jpg,.jpeg,.png" required>
-            </div>
-            <div class="col">
-                <label for="graduation" class="form-label">شهادة التخرج</label>
-                <input type="file" class="form-control" id="graduation" accept=".pdf,.jpg,.jpeg,.png" required>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="licensefile" class="form-label">صحيفة الحالة الجنائية</label>
-                <input type="file" class="form-control" id="licensefile" accept=".pdf,.jpg,.jpeg,.png" required>
-            </div>
-            <div class="col">
-                <label for="graduation" class="form-label">شهادة التخرج</label>
-                <input type="file" class="form-control" id="graduation" accept=".pdf,.jpg,.jpeg,.png" required>
-            </div>
-        </div> -->
+        
         <div class="row mb-3">
             <div class="col">
                 <label for="password" class="form-label">كلمة المرور</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+                <input type="password" id="password" formControlName="password" name="password" class="form-control" required>
             </div>
             <div class="col">
                 <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                <input type="password" id="confirmPassword" formControlName="confirmPassword" name="confirmPassword" class="form-control" required>
             </div>
         </div>
         <input type="submit" value="تسجيل" class="form-btn">

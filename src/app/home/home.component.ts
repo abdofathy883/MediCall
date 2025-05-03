@@ -19,13 +19,14 @@ export class HomeComponent {
   zoom = 18;
 
   formData: NewVisit = {
-    Location: {
-      lat: '',
-      lng: '',
+    PatientLocation: {
+      lat: 0,
+      lng: 0,
     },
     ActualVisitDate: new Date(),
     ScheduledDate: new Date(),
     PatientID: '',
+    Service: '',
   };
 
   constructor(

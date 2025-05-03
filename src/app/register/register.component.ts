@@ -1,4 +1,4 @@
-import { Gender} from './../Services/user-management.service';
+import {  Gender, Location } from './../Services/user-management.service';
 import {
   AbstractControl,
   FormBuilder,
@@ -12,7 +12,6 @@ import { RouterLink, Router } from '@angular/router';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   UserManagementService,
-  baseUser,
 } from '../Services/user-management.service';
 import { Subscription } from 'rxjs';
 
@@ -28,19 +27,38 @@ export class RegisterComponent {
   private userService = inject(UserManagementService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  userName: string = '';
+
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+
+  location: Location | undefined;
 
   registrationForm!: FormGroup;
   userType: 'patient' | 'nurse' = 'patient';
 
- 
+  registrationFormValues = new FormData();
+
+  private getLocationForRegister(): Promise<google.maps.LatLngLiteral> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          resolve(location);
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          reject(error);
+        }
+      );
+    });
+  }
 
   ngOnInit(): void {
-  //   // Redirect to home if already logged in
-  //   if (this.userService.isLoggedIn()) {
-  //     this.router.navigate(['/']);
-  //     return;
-  //   }
-  this.initializeForm();
+    this.getLocationForRegister();
+    this.initializeForm();
   }
 
   ngOnDestroy(): void {
@@ -53,10 +71,13 @@ export class RegisterComponent {
         firstName: ['', [Validators.required, Validators.minLength(2)]],
         lastName: ['', [Validators.required, Validators.minLength(2)]],
         email: ['', [Validators.required, Validators.email]],
+        phone: ['', Validators.required],
         dateOfBirth: ['', [Validators.required, this.validateDateOfBirth()]],
         gender: [Gender.Male, Validators.required],
         password: ['', [Validators.required, Validators.minLength(6)]],
+        nationalId: ['', Validators.required],
         confirmPassword: ['', Validators.required],
+        userName: ['', Validators.required],
       },
       {
         Validators: this.passwordMatchValidator,
@@ -121,16 +142,78 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
-    const formValues = this.registrationForm.value;
-    this.userService.registerPatient(formValues).subscribe({
-      next: (response) => {
-        alert('User registered successfully!');
-        this.router.navigate(['/my-account']); // Navigate to login page after successful registration
-      },
-      error: (error) => {
-        console.error('Error registering user', error);
-      },
-    });
+  async onSubmit() {
+    const currentLocation = await this.getLocationForRegister();
+    const locationData = {
+      Lat: currentLocation.lat,
+      Lng: currentLocation.lng,
+    };
+
+    if (this.registrationForm.valid) {
+      try {
+        const location = await this.getLocationForRegister();
+        this.registrationFormValues.append(
+          'firstName',
+          this.registrationForm.get('firstName')?.value
+        );
+        this.registrationFormValues.append(
+          'lastName',
+          this.registrationForm.get('lastName')?.value
+        );
+        this.registrationFormValues.append(
+          'email',
+          this.registrationForm.get('email')?.value
+        );
+        this.registrationFormValues.append(
+          'phoneNumber',
+          this.registrationForm.get('phone')?.value
+        );
+        this.registrationFormValues.append(
+          'dateOfBirth',
+          this.registrationForm.get('dateOfBirth')?.value
+        );
+        this.registrationFormValues.append(
+          'gender',
+          this.registrationForm.get('gender')?.value
+        );
+        this.registrationFormValues.append(
+          'password',
+          this.registrationForm.get('password')?.value
+        );
+        this.registrationFormValues.append(
+          'confirmPassword',
+          this.registrationForm.get('confirmPassword')?.value
+        );
+        this.registrationFormValues.append(
+          'nationalId',
+          this.registrationForm.get('nationalId')?.value
+        );
+        this.registrationFormValues.append(
+          'userName',
+          this.registrationForm.get('userName')?.value
+        );
+        this.registrationFormValues.append(
+          'Location.Lat',
+          currentLocation.lat.toString()
+        );
+        this.registrationFormValues.append(
+          'Location.Lng',
+          currentLocation.lng.toString()
+        );
+        this.userService
+          .registerPatient(this.registrationFormValues)
+          .subscribe({
+            next: (response) => {
+              alert('User registered successfully!');
+              this.router.navigate(['/my-account']); // Navigate to login page after successful registration
+            },
+            error: (error) => {
+              console.error('Error registering user', error);
+            },
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 }

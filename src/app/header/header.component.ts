@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { UserManagementService } from '../Services/user-management.service';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,20 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
-  @Input() isLoggedIn: boolean = false; // Input property to receive login status from parent component
+export class HeaderComponent implements OnInit {
+  private userService = inject(UserManagementService);
+  private router = inject(Router);
+  isLoggedIn: boolean = false; 
+
+  ngOnInit(){
+    this.userService.isLoggedIn.subscribe(status => {
+      this.isLoggedIn = status;
+    });
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.userService.SetLoginStatus(true);
+    }
+  }
 }

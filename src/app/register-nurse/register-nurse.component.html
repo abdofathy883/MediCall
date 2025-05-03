@@ -5,27 +5,33 @@
     إذا كان لديك حساب بالفعل، يمكنك
     <a [routerLink]="'/login'">تسجيل الدخول هنا</a>.
   </div>
-  <form method="post" (ngSubmit)="onSubmit()">
+  <form method="post" enctype="multipart/form-data" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
     <div class="row mb-3">
       <div class="col">
         <label for="name" class="form-label">الاسم الاول</label>
         <input
           type="text"
           id="name"
-          name="name"
+          formControlName="firstName"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched" class="text-danger">
+          الاسم الأول مطلوب
+        </div>
       </div>
       <div class="col">
         <label for="lastName" class="form-label">الاسم الاخير</label>
         <input
           type="text"
           id="lastName"
-          name="lastName"
+          formControlName="lastName"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched" class="text-danger">
+          الاسم الأخير مطلوب
+        </div>
       </div>
     </div>
     <div class="row mb-3">
@@ -34,20 +40,26 @@
         <input
           type="text"
           id="nationalId"
-          name="nationalId"
+          formControlName="nationalId"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('nationalId')?.invalid && registrationForm.get('nationalId')?.touched" class="text-danger">
+          الرقم القومي مطلوب
+        </div>
       </div>
       <div class="col">
         <label for="phone" class="form-label">رقم الهاتف</label>
         <input
           type="tel"
           id="phone"
-          name="phone"
+          formControlName="phone"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('phone')?.invalid && registrationForm.get('phone')?.touched" class="text-danger">
+          رقم الهاتف مطلوب
+        </div>
       </div>
     </div>
     <div class="row mb-3">
@@ -56,23 +68,29 @@
         <input
           type="date"
           id="dateOfBirth"
-          name="dateOfBirth"
+          formControlName="dateOfBirth"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('dateOfBirth')?.invalid && registrationForm.get('dateOfBirth')?.touched" class="text-danger">
+          تاريخ الميلاد مطلوب (يجب أن يكون العمر 18 عامًا على الأقل)
+        </div>
       </div>
       <div class="col">
         <label for="gender" class="form-label">النوع</label>
         <select
-          name="gender"
+          formControlName="gender"
           id="gender"
           class="form-select"
           required
         >
           <option value="" disabled selected>اختر النوع</option>
-          <option value="male">ذكر</option>
-          <option value="female">أنثى</option>
+          <option value="0">ذكر</option>
+          <option value="1">أنثى</option>
         </select>
+        <div *ngIf="registrationForm.get('gender')?.invalid && registrationForm.get('gender')?.touched" class="text-danger">
+          النوع مطلوب
+        </div>
       </div>
     </div>
     <div class="row mb-3">
@@ -81,62 +99,107 @@
         <input
           type="email"
           id="email"
-          name="email"
+          formControlName="email"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched" class="text-danger">
+          البريد الإلكتروني مطلوب وصحيح
+        </div>
       </div>
-
       <div class="col">
-        <label for="city" class="form-label">المدينة</label>
-        <input type="text" class="form-control" id="city">
-            
+        <label for="experienceYears" class="form-label">سنوات الخبرة</label>
+        <input
+          type="number"
+          id="experienceYears"
+          formControlName="experienceYears"
+          class="form-control"
+          min="0"
+          required
+        />
+        <div *ngIf="registrationForm.get('experienceYears')?.invalid && registrationForm.get('experienceYears')?.touched" class="text-danger">
+          سنوات الخبرة مطلوبة
+        </div>
       </div>
     </div>
     <div class="row mb-3">
+      <div class="col">
+        <label for="SyndicateCard" class="form-label">كارنية النقابة</label>
+        <input
+          type="file"
+          class="form-control"
+          id="syndicateCard"
+          formControlName="syndicateCard"
+          accept=".pdf,.jpg,.jpeg,.png"
+          (change)="onSyndicateCardFileChange($event)"
+          required
+        />
+        <div *ngIf="registrationForm.get('syndicateCard')?.invalid && registrationForm.get('syndicateCard')?.touched" class="text-danger">
+          كارنية النقابة مطلوب
+        </div>
+      </div>
       <div class="col">
         <label for="licensefile" class="form-label">رخصة مزاولة المهنة</label>
         <input
           type="file"
           class="form-control"
           id="licensefile"
+          formControlName="licensefile"
+          (change)="onLicenseFileChange($event)"
           accept=".pdf,.jpg,.jpeg,.png"
           required
         />
+        <div *ngIf="registrationForm.get('licensefile')?.invalid && registrationForm.get('licensefile')?.touched" class="text-danger">
+          رخصة مزاولة المهنة مطلوبة
+        </div>
       </div>
+    </div>
+    <div class="row mb-3">
       <div class="col">
         <label for="graduation" class="form-label">شهادة التخرج</label>
         <input
           type="file"
           class="form-control"
           id="graduation"
+          formControlName="graduation"
           accept=".pdf,.jpg,.jpeg,.png"
+          (change)="onGraduationFileChange($event)"
           required
         />
+        <div *ngIf="registrationForm.get('graduation')?.invalid && registrationForm.get('graduation')?.touched" class="text-danger">
+          شهادة التخرج مطلوبة
+        </div>
       </div>
-    </div>
-    <div class="row mb-3">
       <div class="col">
-        <label for="criminalRecord" class="form-label"
-          >صحيفة الحالة الجنائية</label
-        >
+        <label for="criminalRecord" class="form-label">صحيفة الحالة الجنائية</label>
         <input
           type="file"
           class="form-control"
           id="criminalRecord"
+          formControlName="criminalRecord"
+          (change)="onCriminalRecordFileChange($event)"
           accept=".pdf,.jpg,.jpeg,.png"
           required
         />
+        <div *ngIf="registrationForm.get('criminalRecord')?.invalid && registrationForm.get('criminalRecord')?.touched" class="text-danger">
+          صحيفة الحالة الجنائية مطلوبة
+        </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col">
-        <label for="SyndicateCard" class="form-label">كارنية النقابة</label>
+        <label for="licensenumber" class="form-label">رقم الشهادة</label>
         <input
-          type="file"
+          type="text"
           class="form-control"
-          id="SyndicateCard"
+          id="licensenumber"
+          formControlName="licensenumber"
           accept=".pdf,.jpg,.jpeg,.png"
           required
         />
+        <div *ngIf="registrationForm.get('licensenumber')?.invalid && registrationForm.get('licensenumber')?.touched" class="text-danger">
+          صحيفة الحالة الجنائية مطلوبة
+        </div>
       </div>
     </div>
     <div class="row mb-3">
@@ -145,24 +208,32 @@
         <input
           type="password"
           id="password"
-          name="password"
+          formControlName="password"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched" class="text-danger">
+          كلمة المرور مطلوبة
+        </div>
       </div>
       <div class="col">
-        <label for="confirmPassword" class="form-label"
-          >تأكيد كلمة المرور</label
-        >
+        <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
         <input
           type="password"
           id="confirmPassword"
-          name="confirmPassword"
+          formControlName="confirmPassword"
           class="form-control"
           required
         />
+        <div *ngIf="registrationForm.get('confirmPassword')?.invalid && registrationForm.get('confirmPassword')?.touched" class="text-danger">
+          تأكيد كلمة المرور مطلوب
+        </div>
+        <div *ngIf="registrationForm.errors?.['passwordMismatch']" class="text-danger">
+          كلمات المرور غير متطابقة
+        </div>
       </div>
     </div>
+    
     <input type="submit" value="تسجيل" class="form-btn" />
   </form>
 </section>

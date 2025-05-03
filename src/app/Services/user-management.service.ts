@@ -53,20 +53,21 @@ export interface RefreshToken {
 
 export interface baseUser {
   nationalId: string;
+  userName: string;
   firstName: string;
   lastName: string;
   email: string;
   dateOfBirth: Date;
   gender: Gender;
-  location: Location;
+  Location: Location;
   password: string;
   confirmPassword: string;
   phone: string;
   createdAt: Date;
-  token?: string;
-  refreshTokens?: RefreshToken[];
-  notifications?: Notification[];
-  chatReferences?: ChatReference[];
+  // token?: string;
+  // refreshTokens?: RefreshToken[];
+  // notifications?: Notification[];
+  // chatReferences?: ChatReference[];
 }
 
 export interface Patient extends baseUser {
@@ -96,7 +97,9 @@ export interface RegisterPatientRequest {
   location: Location;
 }
 
-export interface RegisterNurseRequest extends RegisterPatientRequest {
+export interface RegisterNurseRequest extends baseUser {
+  LicenseNumber: string;
+  Experience: Number;
   verificationDocuments: {
     license: File;
     graduationCertificate: File;
@@ -117,7 +120,7 @@ export interface AuthResponse {
 })
 export class UserManagementService {
   private LoggedIn = new BehaviorSubject<boolean>(false);
-  private apiURL = 'https://localhost:44364/api/auth'; // Replace with your API endpoint
+  private apiURL = 'http://localhost:5004/api/auth'; // Replace with your API endpoint
 
   private loggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn = this.loggedInSubject.asObservable();
@@ -165,8 +168,9 @@ export class UserManagementService {
     return localStorage.getItem('token');
   }
 
-  registerPatient(values: RegisterPatientRequest): Observable<any> {
-    return this.http.post<any>(this.apiURL + 'register/patient', values).pipe(
+  registerPatient(values: any): Observable<any> {
+    console.log(values);
+    return this.http.post<any>(this.apiURL + '/PatientRegister', values).pipe(
       catchError((error) => {
         console.error('Registration error', error);
         return throwError(() => error);
@@ -174,61 +178,14 @@ export class UserManagementService {
     );
   }
 
-  registerNurse(values: RegisterNurseRequest): Observable<any> {
-    // Create FormData for file uploads
-    const formData = new FormData();
-
-    // Add all text fields
-    Object.keys(values).forEach((key) => {
-      if (key !== 'verificationDocuments' && key !== 'location') {
-        formData.append(
-          key,
-          values[key as keyof RegisterNurseRequest] as string
-        );
-      }
-    });
-
-    // Add location as JSON
-    formData.append('location', JSON.stringify(values.location));
-
-    // Add verification documents
-    if (values.verificationDocuments) {
-      // Add each document with its type
-      if (values.verificationDocuments.license) {
-        formData.append(
-          'verificationDocuments.license',
-          values.verificationDocuments.license
-        );
-      }
-
-      if (values.verificationDocuments.graduationCertificate) {
-        formData.append(
-          'verificationDocuments.graduationCertificate',
-          values.verificationDocuments.graduationCertificate
-        );
-      }
-
-      if (values.verificationDocuments.criminalRecord) {
-        formData.append(
-          'verificationDocuments.criminalRecord',
-          values.verificationDocuments.criminalRecord
-        );
-      }
-
-      if (values.verificationDocuments.syndicateCard) {
-        formData.append(
-          'verificationDocuments.syndicateCard',
-          values.verificationDocuments.syndicateCard
-        );
-      }
-    }
-
-    return this.http.post<any>(this.apiURL + 'register/nurse', formData).pipe(
-      catchError((error) => {
-        console.error('Nurse registration error', error);
-        return throwError(() => error);
-      })
-    );
+  registerNurse(formData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/NurseRegister', formData)
+      .pipe(
+        catchError((error) => {
+          console.error('Nurse registration error', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   getUserInfo(): Observable<User> {
@@ -249,22 +206,27 @@ export class UserManagementService {
     );
   }
 
-  sendUserLoginData(values: UserLogin): Observable<User> {
-    let params = new HttpParams();
-    params = params.append('useCookies', true);
-
+  sendUserLoginData(values: UserLogin): Observable<any> {
     return this.http
-      .post<AuthResponse>(this.apiURL + 'login', values, { params })
+      .post<any>(this.apiURL + '/login', values)
       .pipe(
         map((response) => {
           if (response && response.token) {
-            const { user, token } = response;
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('token', token);
-
-            this.userSubject.next(user);
-            this.currentUser.set(user);
-            return user;
+            localStorage.setItem('token', response.token);
+            
+            // If there's user info in the response, store it
+            if (response.email && response.userName) {
+              const user = {
+                email: response.email,
+                userName: response.userName,
+                role: response.roles && response.roles.length > 0 ? response.roles[0] : 'User'
+              };
+              localStorage.setItem('user', JSON.stringify(user));
+              this.userSubject.next(user as User);
+              this.currentUser.set(user as User);
+            }
+            
+            return response;
           }
           throw new Error('Invalid response format');
         }),
@@ -274,7 +236,6 @@ export class UserManagementService {
         })
       );
   }
-
   getUserDataByID(id: string): Observable<any>{
     return this.http.get(`${this.apiURL}/${id}`)
   }

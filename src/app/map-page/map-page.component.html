@@ -35,18 +35,12 @@
       <form action="">
         <div class="row">
           <div class="col">
-            <label for="" class="form-label">aa</label>
-            <input type="text" class="form-control" />
-          </div>
-          <div class="col">
-            <label for="" class="form-label">aa</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label for="" class="form-label">aa</label>
-            <input type="text" class="form-control" />
+            <label for="service" class="form-label">الخدمة</label>
+            <select name="service" id="service" class="form-control">
+              <!-- @for (service of allServices; track $index) {
+                <option value="{{ service.id }}">{{ service.name }}</option>
+              } -->
+            </select>
           </div>
           <div class="col">
             <label for="" class="form-label">aa</label>
