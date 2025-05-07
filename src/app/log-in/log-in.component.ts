@@ -35,13 +35,13 @@ export class LogInComponent {
 
       this.userService.sendUserLoginData(this.userLogin).subscribe({
         next: (response: any) => {
-          // console.log('Login response:', response); // Log the full response
+          console.log('Login response:', response); // Log the full response
 
           // The response is the direct object from the API, not wrapped in a data property
           if (response.isAuthenticated) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('userEmail', response.email);
-            localStorage.setItem('userId', response.Id);
+            localStorage.setItem('userId', response.userId);
 
             const user = {
               email: response.email,

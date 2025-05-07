@@ -67,8 +67,8 @@ export class VisitService {
   private apiURL = 'http://localhost:5004/api';
   constructor(private http: HttpClient) { }
 
-  sendVisitData(formData: RequestNearNursesDTO): Observable<any>{
-    return this.http.post(this.apiURL + '/visit/find-nurse', formData);
+  sendVisitData(formData: RequestNearNursesDTO): Observable<ResponseNearNursesDTO>{
+    return this.http.post<ResponseNearNursesDTO>(this.apiURL + '/visit/find-nurse', formData);
   }
 
   getServices(): Observable<ServiceDto[]>{

@@ -193,7 +193,7 @@ export class HomeComponent implements OnInit {
 
         if (response.success) {
           this.currentVisitId = response.visit?.id;
-          this.availableNurses = response.availableNurses || [];
+          // this.availableNurses = response.availableNurses || [];
 
           Swal.fire({
             title: 'تم ارسال طلبك بنجاح!',
