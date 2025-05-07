@@ -1,7 +1,7 @@
 import { CoockiesService } from './../Services/Cookies/coockies.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserManagementService } from '../Services/user-management.service';
+import { User, UserManagementService } from '../Services/user-management.service';
 
 @Component({
   selector: 'app-my-account',
@@ -10,45 +10,60 @@ import { UserManagementService } from '../Services/user-management.service';
   styleUrl: './my-account.component.css'
 })
 export class MyAccountComponent implements OnInit {
-  userData: any;
-  userID: string = '';
+  private router = inject(Router);
+  private userService = inject(UserManagementService);
+  private cookiesService = inject(CoockiesService);
+  userData: User | null = null;
   visits: any[] = [];
-  constructor(private router: Router, private userService: UserManagementService, private cookiesService: CoockiesService) { }
+  patientId?: string = '';
 
   ngOnInit(): void {
-    if(!this.userService.isLoggedIn){
+    const userStr = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    if (!userStr || !token) {
       this.router.navigate(['/login']);
       return;
     }
 
-    this.userID = localStorage.getItem('userID') || '';
+    try {
+      const user = JSON.parse(userStr);
 
-    if(this.userID){
-      this.userService.getUserDataByID(this.userID).subscribe({
-        next: (data) => this.userData = data,
-        error: (err) => console.error(`Error fetching user`, err)
+      if (user && user.email) {
+        this.userService.getUserByEmail(user.email).subscribe({
+          next: (data) => {
+            this.userData = data;
+
+          },
+          error: (err) => console.error(`Error fetching user`, err)
+         
       })
+    }} catch (error) {
+      console.error('Error parsing user data', error);
+      this.router.navigate(['/login']);
     }
-
-    this.userService.getVisits().subscribe({
-      next: (data) => this.visits = data,
-      error: (err) => console.error(`Error fetching visits`, err)
-    })
   }
-  // Add any methods or properties you need for your component here
-  // For example, you might want to fetch user data from a service and display it in the template
+
+  loadUserData(): void {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        this.userData = JSON.parse(storedUser);
+        this.patientId = this.userData?.Id;
+        // this.userService.getUserByEmail(user.email).subscribe({
+        //   next: (data) => {
+        //     this.userData = data;
+        //   },
+        // }
+      } catch (error) {
+        console.error('Error parsing user data', error);
+        this.router.navigate(['/login']);
+      }
+    }
+  }
+
   logOut() {
-    localStorage.removeItem('authtoken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userPhone');
-    localStorage.removeItem('userLocationLat');
-    localStorage.removeItem('userLocationLng');
-    this.cookiesService.deleteCookie('refreshToken'); // Delete the refresh token cookie
-    // this.userService.isLoggedIn.next(false); // Update the login status in the service
-    // Optionally, you can redirect to the login page or home page after logout
-    this.router.navigate(['/login']);
+      localStorage.clear();
+      this.userService.SetLoginStatus(false);
+      this.router.navigate(['/login']);
   }
 }

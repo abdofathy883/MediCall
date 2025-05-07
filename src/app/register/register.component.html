@@ -1,83 +1,259 @@
 <section class="container my-5">
-    <h1 class="text-center mb-3">تسجيل حساب جديد</h1>
-    <p class="text-center mb-3">قم بملء النموذج أدناه لإنشاء حساب جديد.</p>
-    <div class="row mb-4">
-        <div class="alert alert-info col text-center me-2" role="alert">
-            إذا كان لديك حساب بالفعل، يمكنك <a [routerLink]="'/login'">تسجيل الدخول هنا</a>.
-        </div>
-        <div class="alert alert-info col text-center ms-2" role="alert">
-            اعمل معنا الان, يمكنك <a [routerLink]="'/register-nurse'">تسجيل حساب ممرض</a>.
-        </div>
-
+  <h1 class="text-center mb-3">تسجيل حساب جديد</h1>
+  <p class="text-center mb-3">قم بملء النموذج أدناه لإنشاء حساب جديد.</p>
+  <div class="row mb-4">
+    <div class="alert alert-info col text-center me-2" role="alert">
+      إذا كان لديك حساب بالفعل، يمكنك
+      <a [routerLink]="'/login'">تسجيل الدخول هنا</a>.
     </div>
-    <form method="post" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-        <div class="row mb-3">
-            <div class="col">
-                <label for="name" class="form-label">الاسم الاول</label>
-                <input type="text" id="name" name="name" formControlName="firstName" class="form-control" required>
-            </div>
-            <div class="col">
-                <label for="lastName" class="form-label">الاسم الاخير</label>
-                <input type="text" id="lastName" name="lastName" formControlName="lastName" class="form-control" required>
-            </div>
+    <div class="alert alert-info col text-center ms-2" role="alert">
+      اعمل معنا الان, يمكنك
+      <a [routerLink]="'/register-nurse'">تسجيل حساب ممرض</a>.
+    </div>
+  </div>
+  <form method="post" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="name" class="form-label">الاسم الاول</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          formControlName="firstName"
+          class="form-control"
+          required
+        />
+      </div>
+      <div
+        *ngIf="
+          registrationForm.get('firstName')?.invalid &&
+          (registrationForm.get('firstName')?.dirty ||
+            registrationForm.get('firstName')?.touched)
+        "
+        class="text-danger"
+      >
+        <small *ngIf="registrationForm.get('firstName')?.errors?.['required']"
+          >الاسم الاول مطلوب</small
+        >
+        <small *ngIf="registrationForm.get('firstName')?.errors?.['minlength']"
+          >الاسم الأول يجب أن يكون على الأقل حرفين</small
+        >
+      </div>
+      <div class="col">
+        <label for="lastName" class="form-label">الاسم الاخير</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          formControlName="lastName"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('lastName')?.invalid &&
+            (registrationForm.get('lastName')?.dirty ||
+              registrationForm.get('lastName')?.touched)
+          "
+          class="text-danger"
+        >
+          <small *ngIf="registrationForm.get('lastName')?.errors?.['required']"
+            >الاسم الأخير مطلوب</small
+          >
+          <small *ngIf="registrationForm.get('lastName')?.errors?.['minlength']"
+            >الاسم الأخير يجب أن يكون على الأقل حرفين</small
+          >
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="nationalId" class="form-label">الرقم القومي</label>
-                <input type="text" id="nationalId" formControlName="nationalId" name="nationalId" class="form-control" required>
-            </div>
-            <div class="col">
-                <label for="phone" class="form-label">رقم الهاتف</label>
-                <input type="tel" id="phone" formControlName="phone" name="phone" class="form-control" required>
-            </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="nationalId" class="form-label">الرقم القومي</label>
+        <input
+          type="text"
+          id="nationalId"
+          formControlName="nationalId"
+          name="nationalId"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('nationalId')?.invalid &&
+            (registrationForm.get('nationalId')?.dirty ||
+              registrationForm.get('nationalId')?.touched)
+          "
+          class="text-danger"
+        >
+          <small
+            *ngIf="registrationForm.get('nationalId')?.errors?.['required']"
+            >الرقم القومي مطلوب</small
+          >
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="dateOfBirth" class="form-label">تاريخ الميلاد</label>
-                <input type="date" id="dateOfBirth" formControlName="dateOfBirth" name="dateOfBirth" class="form-control" required>
-            </div>
-            <div class="col">
-                <label for="gender" class="form-label">النوع</label>
-                <select name="gender" formControlName="gender" id="gender" class="form-select" required>
-                    <option value="" disabled selected>اختر النوع</option>
-                    <option value="male">ذكر</option>
-                    <option value="female">أنثى</option>
-                </select>
-            </div>
+      </div>
+      <div class="col">
+        <label for="phone" class="form-label">رقم الهاتف</label>
+        <input
+          type="tel"
+          id="phone"
+          formControlName="phone"
+          name="phone"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('phone')?.invalid &&
+            (registrationForm.get('phone')?.dirty ||
+              registrationForm.get('phone')?.touched)
+          "
+          class="text-danger"
+        >
+          <small
+            *ngIf="registrationForm.get('phone')?.errors?.['required']"
+            >الهاتف مطلوب</small
+          >
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="email" class="form-label">البريد الإلكتروني</label>
-                <input type="email" formControlName="email" id="email" name="email" class="form-control" required>
-            </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="dateOfBirth" class="form-label">تاريخ الميلاد</label>
+        <input
+          type="date"
+          id="dateOfBirth"
+          formControlName="dateOfBirth"
+          name="dateOfBirth"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('dateOfBirth')?.invalid &&
+            (registrationForm.get('dateOfBirth')?.dirty ||
+              registrationForm.get('dateOfBirth')?.touched)
+          "
+          class="text-danger"
+        >
+          <small
+            *ngIf="registrationForm.get('dateOfBirth')?.errors?.['required']"
+            >تاريخ الميلاد مطلوب</small
+          >
+        </div>
+      </div>
+      <div class="col">
+        <label for="gender" class="form-label">النوع</label>
+        <select
+          name="gender"
+          formControlName="gender"
+          id="gender"
+          class="form-select"
+          required
+        >
+          <option value="" disabled selected>اختر النوع</option>
+          <option [value]="Gender.Male">ذكر</option>
+          <option [value]="Gender.Female">أنثى</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="email" class="form-label">البريد الإلكتروني</label>
+        <input
+          type="email"
+          formControlName="email"
+          id="email"
+          name="email"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('email')?.invalid &&
+            (registrationForm.get('email')?.dirty ||
+              registrationForm.get('email')?.touched)
+          "
+          class="text-danger"
+        >
+          <small
+            *ngIf="registrationForm.get('email')?.errors?.['required']"
+            >البريد الالكتروني مطلوب</small
+          >
+        </div>
+      </div>
 
-            <div class="col">
-                <label for="username" class="form-label">البريد الإلكتروني</label>
-                <input type="text" formControlName="userName" id="username" name="username" class="form-control" >
-            </div>
-            
-            <!-- <div class="col">
-                <label for="role" class="form-label">الدور</label>
-                <select name="role" id="role" class="form-select" required>
-                    <option value="" disabled selected>اختر الدور</option>
-                    <option value="admin">مدير</option>
-                    <option value="user">مستخدم</option>
-                    <option value="doctor">طبيب</option>
-                </select> -->
+      <div class="col">
+        <label for="username" class="form-label">اسم المستخدم</label>
+        <input
+          type="text"
+          formControlName="userName"
+          id="username"
+          name="username"
+          class="form-control"
+        />
+      </div>
+    </div>
 
-            <!-- </div> -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="password" class="form-label">كلمة المرور</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          name="password"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('password')?.invalid &&
+            (registrationForm.get('password')?.dirty ||
+              registrationForm.get('password')?.touched)
+          "
+          class="text-danger"
+        >
+          <small *ngIf="registrationForm.get('password')?.errors?.['required']"
+            >كلمة المرور مطلوبة</small
+          >
+          <small *ngIf="registrationForm.get('password')?.errors?.['minlength']"
+            >كلمة المرور يجب أن تكون على الأقل 6 أحرف</small
+          >
         </div>
-        
-        <div class="row mb-3">
-            <div class="col">
-                <label for="password" class="form-label">كلمة المرور</label>
-                <input type="password" id="password" formControlName="password" name="password" class="form-control" required>
-            </div>
-            <div class="col">
-                <label for="confirmPassword" class="form-label">تأكيد كلمة المرور</label>
-                <input type="password" id="confirmPassword" formControlName="confirmPassword" name="confirmPassword" class="form-control" required>
-            </div>
+      </div>
+      <div class="col">
+        <label for="confirmPassword" class="form-label"
+          >تأكيد كلمة المرور</label
+        >
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          name="confirmPassword"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="
+            registrationForm.get('confirmPassword')?.invalid &&
+            (registrationForm.get('confirmPassword')?.dirty ||
+              registrationForm.get('confirmPassword')?.touched)
+          "
+          class="text-danger"
+        >
+          <small
+            *ngIf="registrationForm.get('confirmPassword')?.errors?.['required']"
+            >تأكيد كلمة المرور مطلوب</small
+          >
         </div>
-        <input type="submit" value="تسجيل" class="form-btn">
-    </form>
+        <div
+          *ngIf="registrationForm.errors?.['mismatch'] && registrationForm.get('confirmPassword')?.touched"
+          class="text-danger"
+        >
+          <small>كلمات المرور غير متطابقة</small>
+        </div>
+      </div>
+    </div>
+    <input type="submit" value="تسجيل" class="form-btn" />
+  </form>
 </section>

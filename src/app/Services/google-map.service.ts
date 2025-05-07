@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 // Interface for Location model
 export interface Location {
@@ -28,7 +28,6 @@ export interface NurseDetailsDto {
   profilePicture?: string;
   visitCount: number;
   phoneNumber?: string;
-  location?: Location;
 }
 
 // Interface for PatientDetailsDto
@@ -68,6 +67,7 @@ export interface VisitDTO {
 export interface RequestNearNursesDTO {
   patientId: string;
   serviceIds: number[];
+
   patientLocation: Location;
   scheduledDate: Date;
   actualVisitDate: Date;
@@ -78,37 +78,28 @@ export interface ResponseNearNursesDTO {
   success: boolean;
   message: string;
   nurses: NurseDetailsDto[];
-  vist?: VisitDTO; // Note: This is spelled 'vist' in the backend, not 'visit'
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GoogleMapService {
   private apiURL = 'http://localhost:5004/api';
-
-  constructor(private http: HttpClient) {}
+  
+  constructor(private http: HttpClient) { }
 
   sendMyLocation(lat: number, lng: number) {
-    return this.http.post(`${this.apiURL}/location/update`, {
-      latitude: lat,
-      longitude: lng,
-    });
+    // return this.http.post(`${this.apiURL}/location/update`, { latitude: lat, longitude: lng });
+    return of({ success: true})
   }
 
-  getNearbyNurses(lat: number, lng: number) {
-    return this.http.get<any[]>(
-      `${this.apiURL}/location/nearby?lat=${lat}&lng=${lng}`
-    );
+  getNearbyNurses(lat: number, lng: number): Observable<any[]> {
+    // return this.http.get<any[]>(`${this.apiURL}/location/nearby?lat=${lat}&lng=${lng}`);
+    return of([]);
   }
 
-  // Method to find nearest nurses for a visit
-  findNearestNurses(
-    request: RequestNearNursesDTO
-  ): Observable<ResponseNearNursesDTO> {
-    return this.http.post<ResponseNearNursesDTO>(
-      `${this.apiURL}/visit/find-nurse`,
-      request
-    );
+  // New method to find nearest nurses for a visit
+  findNearestNurses(request: RequestNearNursesDTO): Observable<ResponseNearNursesDTO> {
+    return this.http.post<ResponseNearNursesDTO>(`${this.apiURL}/visit/find-nurse`, request);
   }
 }
