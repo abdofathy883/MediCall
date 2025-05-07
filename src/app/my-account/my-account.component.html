@@ -1,7 +1,10 @@
 <section class="container my-4">
   <div class="d-flex flex-column justify-content-center align-items-center">
-    <h2>أهلا, username</h2>
+    <h2>أهلا, {{ userData?.userName}}</h2>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    <p>{{userData?.nationalId}}</p>
+    <p>{{userData?.email}}</p>
+
   </div>
 </section>
 <section class="container my-4">
@@ -37,7 +40,7 @@
       >
         الزيارات
       </button>
-      <button class="btn btn-danger mt-1" (onclick)="logOut()">
+      <button class="btn btn-danger mt-1" (click)="logOut()">
         تسجيل الخروج
       </button>
     </div>

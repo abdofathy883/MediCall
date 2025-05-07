@@ -20,6 +20,7 @@ export interface Location {
   Lat: number;
   Lng: number;
 }
+
 export interface Notification {
   id: string;
   message: string;
@@ -52,6 +53,7 @@ export interface RefreshToken {
 }
 
 export interface baseUser {
+  Id?: string;
   nationalId: string;
   userName: string;
   firstName: string;
@@ -64,19 +66,16 @@ export interface baseUser {
   confirmPassword: string;
   phone: string;
   createdAt: Date;
-  // token?: string;
-  // refreshTokens?: RefreshToken[];
-  // notifications?: Notification[];
-  // chatReferences?: ChatReference[];
 }
 
 export interface Patient extends baseUser {
+  // patientId: string;
   role: 'Patient';
 }
 
 export interface Nurse extends baseUser {
   role: 'Nurse';
-  verificationDocuments: string[]; // URLs to the verification documents
+  verificationDocuments: string[];
   isVerified: boolean;
 }
 
@@ -111,8 +110,16 @@ export interface RegisterNurseRequest extends baseUser {
 export type User = Patient | Nurse;
 
 export interface AuthResponse {
-  user: User;
+  patientId: string;
+  isAuthenticated: boolean;
   token: string;
+  email: string;
+  userName: string;
+  roles: string[] | string;
+  message?: string;
+  refreshToken?: string;
+  refreshTokenExpiration?: Date;
+  userId: string;
 }
 
 @Injectable({
@@ -179,13 +186,12 @@ export class UserManagementService {
   }
 
   registerNurse(formData: FormData): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/NurseRegister', formData)
-      .pipe(
-        catchError((error) => {
-          console.error('Nurse registration error', error);
-          return throwError(() => error);
-        })
-      );
+    return this.http.post<any>(this.apiURL + '/NurseRegister', formData).pipe(
+      catchError((error) => {
+        console.error('Nurse registration error', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   getUserInfo(): Observable<User> {
@@ -206,42 +212,41 @@ export class UserManagementService {
     );
   }
 
-  sendUserLoginData(values: UserLogin): Observable<any> {
+  sendUserLoginData(values: UserLogin): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(this.apiURL + '/login', values).pipe(
+      map((response) => {
+        if (response.isAuthenticated) {
+          return response;
+        }
+        throw new Error('Invalid response format');
+      }),
+      catchError((error) => {
+        console.error('Login error', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  getUserByEmail(email: string): Observable<User> {
     return this.http
-      .post<any>(this.apiURL + '/login', values)
+      .get<User>(`${this.apiURL}/user/profile?email=${email}`)
       .pipe(
-        map((response) => {
-          if (response && response.token) {
-            localStorage.setItem('token', response.token);
-            
-            // If there's user info in the response, store it
-            if (response.email && response.userName) {
-              const user = {
-                email: response.email,
-                userName: response.userName,
-                role: response.roles && response.roles.length > 0 ? response.roles[0] : 'User'
-              };
-              localStorage.setItem('user', JSON.stringify(user));
-              this.userSubject.next(user as User);
-              this.currentUser.set(user as User);
-            }
-            
-            return response;
-          }
-          throw new Error('Invalid response format');
+        tap((user) => {
+          this.userSubject.next(user);
+          this.currentUser.set(user);
         }),
         catchError((error) => {
-          console.error('Login error', error);
+          console.error('Get user by email error', error);
+          if (error.staus === 401) {
+            this.logout();
+          }
           return throwError(() => error);
         })
       );
   }
-  getUserDataByID(id: string): Observable<any>{
-    return this.http.get(`${this.apiURL}/${id}`)
-  }
 
-  getVisits(): Observable<any[]>{
-    return this.http.get<any[]>(`${this.apiURL}`)
+  getVisits(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiURL}`);
   }
 
   logout(): Observable<any> {

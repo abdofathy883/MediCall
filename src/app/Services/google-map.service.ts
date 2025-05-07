@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 // Interface for Location model
 export interface Location {
@@ -89,11 +89,14 @@ export class GoogleMapService {
   constructor(private http: HttpClient) { }
 
   sendMyLocation(lat: number, lng: number) {
-    return this.http.post(`${this.apiURL}/location/update`, { latitude: lat, longitude: lng });
+    // return this.http.post(`${this.apiURL}/location/update`, { latitude: lat, longitude: lng });
+    return of({ success: true})
   }
 
-  getNearbyNurses(lat: number, lng: number) {
-    return this.http.get<any[]>(`${this.apiURL}/location/nearby?lat=${lat}&lng=${lng}`);
+  getNearbyNurses(lat: number, lng: number): Observable<any[]> {
+    // return this.http.get<any[]>(`${this.apiURL}/location/nearby?lat=${lat}&lng=${lng}`);
+    return of([]);
+
   }
 
   // New method to find nearest nurses for a visit

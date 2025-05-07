@@ -41,7 +41,9 @@ export const routes: Routes = [
   },
   {
     path: 'my-account',
-    component: MyAccountComponent,
+    loadComponent: () => import('./my-account/my-account.component').then(m => m.MyAccountComponent),
+    // component: MyAccountComponent,
+    canActivate: ['authGuard']
   },
   {
     path: '**',

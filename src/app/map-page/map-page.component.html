@@ -9,11 +9,11 @@
     }"
   >
   </map-marker>
-  } @for (driver of nursesMarkers; track $index) {
+  } @for (nurse of nursesMarkers; track $index) {
   <map-marker
-    [position]="driver"
-    [label]="'Driver'"
-    [title]="'Nearby Driver'"
+    [position]="nurse"
+    [label]="'nurse'"
+    [title]="'Nearby Nurse'"
     [icon]="{
       url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     }"
@@ -22,51 +22,67 @@
   }
 </google-map>
 
-@if (isUserPatient) {
-  @if (!isUserLoggedIn) {
-    <div class="log-in">
-      <h5>سجل دخول اولا لطلب زيارة</h5>
-      <a routerLink="/login">تسجيل دخول</a>
+@if (!isUserLoggedIn) {
+  <div class="log-in">
+    <h5>سجل دخول اولا لطلب زيارة</h5>
+    <a routerLink="/login">تسجيل دخول</a>
+  </div>
+}
+<div class="form-div">
+  <h3>احجز زيارة</h3>
+  <form [formGroup]="VisitForm" (ngSubmit)="onSubmit()">
+    <div class="col">
+      <label for="services" class="form-label">الخدمات</label>
+      <select multiple formControlName="servicesIds" id="services" class="form-control">
+        @for (service of availableServices; track service.id) {
+          <option [value]="service.id">{{ service.name }} - {{ service.basePrice }} جنيه</option>
+        }
+
+      </select>
+      <small class="form-text text-muted">يمكنك اختيار أكثر من خدمة (اضغط Ctrl للاختيار المتعدد)</small>
     </div>
-  }
-  @if (isUserLoggedIn) {
-    <div class="form-div">
-      <h3>احجز</h3>
-      <form action="">
-        <div class="row">
-          <div class="col">
-            <label for="service" class="form-label">الخدمة</label>
-            <select name="service" id="service" class="form-control">
-              <!-- @for (service of allServices; track $index) {
-                <option value="{{ service.id }}">{{ service.name }}</option>
-              } -->
-            </select>
-          </div>
-          <div class="col">
-            <label for="" class="form-label">aa</label>
-            <input type="text" class="form-control" />
-          </div>
-        </div>
-        <input type="submit" value="ارسال" class="form-btn mb-4" />
-      </form>
+    
+    <div class="mt-3">
+      <button type="submit" class="form-btn mb-4" [disabled]="isLoading">
+        @if (isLoading) {
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          جاري الإرسال...
+        } @else {
+          ارسال
+        }
+      </button>
     </div>
-  }
-  @if(formSubmitted){
+  </form>
+</div>
+
+<!-- Display nurses section -->
+@if (formSubmitted && availableNurses.length > 0) {
   <div class="nurses-group">
-    @for(nurse of availableNurses; track $index){
-    <div class="row py-3 my-3 d-flex align-items-center single-nurse">
-      <div class="col-2">
-        <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="" />
+    <h4>الممرضين المتاحين</h4>
+    @for(nurse of availableNurses; track nurse.id) {
+      <div class="row py-3 my-3 d-flex align-items-center single-nurse">
+        <!-- <div class="col-2">
+          <img [src]="nurse.profilePicture || '/nurse.svg'" class="mx-auto d-block" width="90%" alt="صورة الممرض" />
+        </div> -->
+        <div class="col-10">
+          <h5>{{ nurse.firstName }} {{ nurse.lastName }}</h5>
+          <p>سنوات الخبرة: {{ nurse.experienceYears }}</p>
+          <p>عدد الزيارات: {{ nurse.visitCount }}</p>
+          <button class="button" (click)="selectNurse(nurse.id, currentVisitId)">اختيار</button>
+        </div>
       </div>
-      <div class="col-10">
-        <h5>nurse</h5>
-        <button class="button" (click)="nurseAccepted()">موافقة</button>
-      </div>
-    </div>
     }
   </div>
-  } @if (nurseGotAccepted) {
-  <div>
+} @else if (formSubmitted && availableNurses.length === 0) {
+  <div class="alert alert-info">
+    لا يوجد ممرضين متاحين في منطقتك حاليًا. يرجى المحاولة مرة أخرى لاحقًا.
+  </div>
+}
+
+<!-- Payment iframe section -->
+<!-- @if (nurseGotAccepted && iframeUrl) {
+  <div class="payment-section">
+    <h4>الدفع</h4>
     <iframe
       [src]="iframeUrl"
       width="100%"
@@ -74,22 +90,12 @@
       frameborder="0"
       allowpaymentrequest
     ></iframe>
-  </div>
-  }
-
-  <div class="accepted-nurse">
-    <div class="row py-3 my-3 d-flex align-items-center single-nurse">
-      <div class="col-2">
-        <img src="/nurse.svg" class="mx-auto d-block" width="90%" alt="" />
-      </div>
-      <div class="col-10">
-        <h5>nurse</h5>
-        <button class="button" (click)="thanksAlert()">موافقة</button>
-      </div>
+    <div class="mt-3">
+      <button class="btn btn-danger" (click)="cancelVisit(currentVisitId)">إلغاء الزيارة</button>
+      <button class="btn btn-success ms-2" (click)="completeVisit(currentVisitId)">إنهاء الزيارة</button>
     </div>
   </div>
-
-}
+} -->
 
 @if (isUserNurse) {
   <div class="accepted-nurse">

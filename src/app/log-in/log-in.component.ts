@@ -38,57 +38,24 @@ export class LogInComponent {
           console.log('Login response:', response); // Log the full response
 
           // The response is the direct object from the API, not wrapped in a data property
-          if (response) {
-            const {
-              token,
-              refreshToken,
-              refreshTokenExpiration,
-              email,
-              userName,
-              roles,
-            } = response;
+          if (response.isAuthenticated) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('userEmail', response.email);
+            localStorage.setItem('userId', response.userId);
 
-            // Store auth data
-            localStorage.setItem('token', token);
-            if (refreshToken) {
-              this.cookiesService.setCookie('refreshToken', refreshToken, 1);
-            }
-
-            // Store user data
             const user = {
-              email,
-              userName,
-              role: Array.isArray(roles) && roles.length > 0 ? roles[0] : 
-                    (typeof roles === 'string' ? roles : 'User')
-            } 
+              email: response.email,
+              userName: response.userName,
+              role:
+                Array.isArray(response.roles) && response.roles.length > 0
+                  ? response.roles[0]
+                  : null,
+              userId: response.userId,
+            };
 
             localStorage.setItem('user', JSON.stringify(user));
-
-            // Update login status
             this.userService.SetLoginStatus(true);
-
-            // Check if roles is an array before using includes
-            if (Array.isArray(roles)) {
-              if (roles.includes('Nurse')) {
-                this.router.navigate(['/my-account']);
-              } else if (roles.includes('Patient')) {
-                this.router.navigate(['/my-account']);
-              } else {
-                this.router.navigate(['/']);
-              }
-            } else if (typeof roles === 'string') {
-              // If roles is a string, do a direct comparison
-              if (roles === 'Nurse') {
-                this.router.navigate(['/nurse-dashboard']);
-              } else if (roles === 'Patient') {
-                this.router.navigate(['/patient-dashboard']);
-              } else {
-                this.router.navigate(['/']);
-              }
-            } else {
-              // Default navigation if roles is neither an array nor a string
-              this.router.navigate(['/']);
-            }
+            this.router.navigate(['/my-account']);
           } else {
             this.errorMessage = 'Invalid response from server';
             this.loading = false;
@@ -109,4 +76,5 @@ export class LogInComponent {
     } else {
       this.errorMessage = 'Please fill in both email and password!';
     }
-  }}
+  }
+}
