@@ -82,7 +82,8 @@ export class VisitService {
   // }
 
   acceptNurseByPatient(visitId: number, nurseId: string): Observable<any> {
-    return this.http.post(`${this.apiURL}/visit/accept-nurse-by-patient`, { visitId, nurseId });
+    return this.http.post(`${this.apiURL}/visit/accept-nurse-by-patient?visitId=${visitId}&nurseId=${nurseId}`, { });
+    // return this.http.post(`${this.apiURL}/visit/accept-nurse-by-patient`, { visitId, nurseId });
   }
 
   cancelVisitByPatient(visitId: number, cancellationReason: string): Observable<any> {
