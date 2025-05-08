@@ -142,6 +142,8 @@ export class MapPageComponent implements OnInit {
     this.isLoading = true;
     this.visit.getServices().subscribe({
       next: (services: ServiceDto[]) => {
+        console.log(services);
+        console.log('Response type:', typeof services);
         if (Array.isArray(services)) {
           this.availableServices = services;
         }
@@ -200,6 +202,7 @@ export class MapPageComponent implements OnInit {
 
     this.isLoading = true;
 
+
     try {
       const location = await this.getLocationForVisit();
 
@@ -215,37 +218,34 @@ export class MapPageComponent implements OnInit {
       this.visit.sendVisitData(visitData).subscribe({
         next: (response: ResponseNearNursesDTO) => {
           console.log('Visit request submitted successfully:', response);
+          console.log(JSON.stringify(response));
           this.formSubmitted = true;
           this.isLoading = false;
 
+          this.currentVisitId = response.visit?.id;
+          this.availableNurses = response.nurses || [];
           if (response.success) {
-            this.currentVisitId = response.visit?.id;
-            this.availableNurses = response.nurses || [];
 
             // Update nurse markers on the map
-            if (this.availableNurses.length > 0) {
+            if (this.availableNurses.length > 1) {
               // If we have nurse locations, we could add them to the map
               // This would require the backend to return nurse locations
-            }
 
-            // Show success message
-            Swal.fire({
-              title: 'تم ارسال طلبك بنجاح!',
-              text:
-                this.availableNurses.length > 0
-                  ? 'يرجى اختيار ممرض من القائمة'
-                  : 'لا يوجد ممرضين متاحين حاليًا',
-              icon: 'success',
-              confirmButtonText: 'تم',
-              customClass: {
-                container: 'swal-alert',
-              },
-            });
-          } else {
-            this.showErrorAlert(
-              response.message || 'حدث خطأ أثناء معالجة طلبك'
-            );
-          }
+
+              Swal.fire({
+                title: 'تم ارسال طلبك بنجاح!',
+                text:
+                  this.availableNurses.length > 0
+                    ? 'يرجى اختيار ممرض من القائمة'
+                    : 'لا يوجد ممرضين متاحين حاليًا',
+                icon: 'success',
+                confirmButtonText: 'تم',
+                customClass: {
+                  container: 'swal-alert',
+                },
+              });
+            }
+          } 
         },
         error: (error) => {
           console.error('Error submitting visit request:', error);
@@ -262,6 +262,7 @@ export class MapPageComponent implements OnInit {
         'Unable to get your location. Please enable location services and try again.'
       );
     }
+    
   }
   showErrorAlert(message: string) {
     Swal.fire({
@@ -276,13 +277,15 @@ export class MapPageComponent implements OnInit {
   }
 
   selectNurse(nurseId: string, visitId?: number) {
+    visitId = this.currentVisitId;
     if (!visitId) {
       this.showErrorAlert('No visit ID available');
       return;
     }
 
+    debugger;
     this.selectedNurseId = nurseId;
-    this.currentVisitId = visitId;
+    // this.currentVisitId = visitId;
 
     Swal.fire({
       title: 'تأكيد اختيار الممرض',

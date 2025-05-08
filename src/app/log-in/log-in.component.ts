@@ -41,7 +41,7 @@ export class LogInComponent {
           if (response.isAuthenticated) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('userEmail', response.email);
-            localStorage.setItem('userId', response.userId);
+            // localStorage.setItem('userId', response.userId);
 
             const user = {
               email: response.email,
