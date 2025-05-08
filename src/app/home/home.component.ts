@@ -118,13 +118,14 @@ export class HomeComponent implements OnInit {
 
     this.loadServices();
     this.initializeForm();
-
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
+
       this.myLocationMarker = { ...this.center };
+
       this.mapService
         .sendMyLocation(this.center.lat, this.center.lng)
         .subscribe(() => {
@@ -227,4 +228,5 @@ export class HomeComponent implements OnInit {
   }
 
   thanksAlert(): void {}
+
 }

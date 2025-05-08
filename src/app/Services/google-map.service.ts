@@ -96,6 +96,7 @@ export class GoogleMapService {
   getNearbyNurses(lat: number, lng: number): Observable<any[]> {
     // return this.http.get<any[]>(`${this.apiURL}/location/nearby?lat=${lat}&lng=${lng}`);
     return of([]);
+
   }
 
   // New method to find nearest nurses for a visit
