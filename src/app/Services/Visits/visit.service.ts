@@ -47,7 +47,8 @@ export interface ResponseNearNursesDTO {
   success: boolean;
   message: string;
   nurses: NurseDetailsDto[];
-  visit?: any;
+  visit?: {id: number};
+  // visit?: any;
 }
 
 export interface RequestNearNursesDTO {
@@ -72,7 +73,8 @@ export class VisitService {
   }
 
   getServices(): Observable<ServiceDto[]>{
-    return this.http.get<ServiceDto[]>(`${this.apiURL}/Service/get-services`)
+    // return this.http.get<ServiceDto[]>(`${this.apiURL}/Service/get-services`)
+    return this.http.get<ServiceDto[]>(`${this.apiURL}/GetData/services`)
   }
 
   // getNearestNurses(): Observable<string[]>{
